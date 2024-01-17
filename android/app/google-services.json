@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46096830825",
+    "project_id": "tobby-reviewer",
+    "storage_bucket": "tobby-reviewer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46096830825:android:817929746644d46d47edf8",
+        "android_client_info": {
+          "package_name": "com.example.tobby_reviewer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBxRb2F4WS1poH3Bvg0uvLaugTEfSN8_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
