@@ -16,14 +16,14 @@ class ExamItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<QuestionEntity> questions = state.questions;
-    int questionNumber = state.questionNumber;
+    int questionNumber = state.questionNumber - 1;
     String? selectedAnswer = state.answerEntity?.selectedAnswer;
     String? correctAnswer = state.answerEntity?.correctAnswer;
     List<OptionsEntity> options = state.options;
-    print('🍕 options: ${options.length}');
-    print('🍕 correctAnswer: $correctAnswer');
-    print('🍕 selectedAnswer: $selectedAnswer');
-    print('🍕 question: ${questions[questionNumber].question}');
+    int? wrongAnswerCount = state.wrongAnswerCount;
+    bool isEnable = selectedAnswer != null &&
+        selectedAnswer.isNotEmpty &&
+        wrongAnswerCount < 3;
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -33,8 +33,10 @@ class ExamItemView extends StatelessWidget {
             const SizedBox(height: 40),
             // Display answer options
             ...(options).map((option) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width / 1.5,
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                width: MediaQuery.of(context).size.width / 1.3,
+                height: 64,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: getButtonColor(
@@ -43,7 +45,7 @@ class ExamItemView extends StatelessWidget {
                       option: option.value,
                     ),
                   ),
-                  onPressed: selectedAnswer != null && selectedAnswer.isNotEmpty
+                  onPressed: isEnable
                       ? () {}
                       : () => bloc.add(
                             SelectAnswer(
@@ -63,6 +65,7 @@ class ExamItemView extends StatelessWidget {
                         child: Text(
                           option.value,
                           style: TextStyle(
+                            fontSize: 16,
                             color: getTextColor(
                               selectedAnswer: selectedAnswer,
                               correctAnswer: correctAnswer,

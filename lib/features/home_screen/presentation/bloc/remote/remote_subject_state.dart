@@ -13,10 +13,31 @@ class RemoteSubjectLoading extends RemoteSubjectState {
   const RemoteSubjectLoading();
 }
 
+class RemoteRefreshState extends RemoteSubjectState {
+  const RemoteRefreshState();
+}
+
 class RemoteSubjectDone extends RemoteSubjectState {
-  const RemoteSubjectDone(this.subjects);
+  const RemoteSubjectDone({
+    required this.subjects,
+    this.isLoading = false,
+  });
 
   final List<SubjectEntity> subjects;
+  final bool isLoading;
+
+  @override
+  List<Object> get props => [subjects, isLoading];
+
+  RemoteSubjectDone copyWith({
+    List<SubjectEntity>? subjects,
+    bool? isLoading,
+  }) {
+    return RemoteSubjectDone(
+      subjects: subjects ?? this.subjects,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 }
 
 class RemoteSubjectError extends RemoteSubjectState {

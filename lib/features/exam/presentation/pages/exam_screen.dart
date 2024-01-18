@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/features/exam/presentation/bloc/exam_bloc.dart';
 import 'package:tobby_reviewer/features/exam/presentation/bloc/exam_event.dart';
 import 'package:tobby_reviewer/features/exam/presentation/bloc/exam_state.dart';
-import 'package:tobby_reviewer/features/exam/presentation/widgets/dialog.dart';
+import 'package:tobby_reviewer/core/widgets/custom_dialog.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/exam_item_view.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/next_button.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/progress_counter_view.dart';
@@ -59,7 +59,39 @@ class _ExamScreenState extends State<ExamScreen> {
         child: BlocConsumer<ExamBloc, ExamState>(
           listener: (context, state) {
             if (state is ExamDone && (state).wrongAnswerCount >= 3) {
-              _showDialog(context);
+              int wrongAnswers = (state).wrongAnswerCount;
+              int totalQuestions = (state).questions.length;
+              String score = '${totalQuestions - wrongAnswers}/$totalQuestions';
+              _showDialog(
+                context,
+                title: 'Quiz Over',
+                body: 'You have made 3 mistakes and lost this quiz',
+                onConfirm: () => _closeDialog(context),
+                confirmText: 'Restart!',
+                secondDescription: 'Score: $score',
+              );
+            }
+            if (state is FinishedExam) {
+              int wrongAnswers = (state).wrongAnswers;
+              int totalQuestions = (state).totalQuestions;
+              String score = '${totalQuestions - wrongAnswers}/$totalQuestions';
+              _showDialog(
+                context,
+                title: 'Congratulations on your Exam, Tobby!',
+                body:
+                    '''Woo-hoo! 🎉 You did it! You've successfully conquered the exam and showcased your brilliance. Score: $score''',
+                onConfirm: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.thumb_up_alt_sharp,
+                  color: Colors.purple,
+                ),
+                confirmText: 'Continue Learning',
+                secondDescription: 'Score: $score',
+              );
             }
           },
           builder: (context, state) {
@@ -82,24 +114,37 @@ class _ExamScreenState extends State<ExamScreen> {
     );
   }
 
-  void _showDialog(BuildContext context) {
+  void _showDialog(
+    BuildContext context, {
+    required String title,
+    String? body,
+    Icon? icon,
+    void Function()? onConfirm,
+    final String? confirmText,
+    String? secondDescription,
+  }) {
     showDialog(
       context: context,
       builder: (context) => CustomDialog(
-        title: 'Oops! Keep Going!',
-        body:
-            "It looks like you've encountered a few challenges. Don't worry, you're making progress! Take a moment to review the correct answers and try again. Learning is a journey, and every mistake is a step towards improvement. Keep up the good work!",
-        onConfirm: () {
-          Navigator.pop(context);
-          bloc.add(
-            GetQuestions(
-              subjectId: widget.subjectId,
-              periodId: widget.periodId,
-              period: widget.period,
-            ),
-          );
-        },
+        icon: icon,
+        title: title,
+        body: body,
+        onConfirm: onConfirm,
         onCancel: () {},
+        confirmText: confirmText,
+        secondDescription: secondDescription,
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  void _closeDialog(BuildContext context) {
+    Navigator.pop(context);
+    bloc.add(
+      GetQuestions(
+        subjectId: widget.subjectId,
+        periodId: widget.periodId,
+        period: widget.period,
       ),
     );
   }

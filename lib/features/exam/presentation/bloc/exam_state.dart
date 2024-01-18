@@ -78,3 +78,13 @@ class SelectAnswerState extends ExamState {
 
   const SelectAnswerState(this.answerEntity);
 }
+
+class FinishedExam extends ExamState {
+  const FinishedExam({
+    required this.wrongAnswers,
+    required this.totalQuestions,
+  });
+
+  final int wrongAnswers;
+  final int totalQuestions;
+}

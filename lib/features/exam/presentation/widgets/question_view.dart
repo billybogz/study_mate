@@ -9,7 +9,7 @@ class QuestionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32.0),
+      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 0),
       child: Text(
         question.capitalizeFirstLetter(),
         style: const TextStyle(fontSize: 24),

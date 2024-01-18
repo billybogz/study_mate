@@ -11,6 +11,7 @@ import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/rem
 class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
   RemoteSubjectBloc() : super(const RemoteSubjectLoading()) {
     on<GetSubjects>(onGetSubjects);
+    on<RefreshScreenEvent>(onRefreshScreen);
     on<SelectPeriodEvent>((event, emit) {
       emit(SelectPeriodState(
           selectedSubject: event.selectedSubject,
@@ -19,19 +20,34 @@ class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
     });
     on<CloseModalEvent>((event, emit) {
       Navigator.pop(event.context);
-      emit(RemoteSubjectDone(event.subjects));
+      emit(RemoteSubjectDone(subjects: event.subjects));
     });
   }
 
   void onGetSubjects(
-      GetSubjects event, Emitter<RemoteSubjectState> emit) async {
+    GetSubjects event,
+    Emitter<RemoteSubjectState> emit,
+  ) async {
     Either<Failure, List<SubjectEntity>> result =
         await serviceLocator<GetSubjectUseCase>().call();
     return result.fold(
       (Failure error) => emit(RemoteSubjectError(error)),
       (List<SubjectEntity> subjects) {
-        emit(RemoteSubjectDone(subjects));
+        emit(
+          RemoteSubjectDone(
+            subjects: subjects,
+            isLoading: false,
+          ),
+        );
       },
     );
+  }
+
+  void onRefreshScreen(
+    RefreshScreenEvent event,
+    Emitter<RemoteSubjectState> emit,
+  ) async {
+    emit((state as RemoteSubjectDone).copyWith(isLoading: true));
+    event.bloc.add(const GetSubjects());
   }
 }

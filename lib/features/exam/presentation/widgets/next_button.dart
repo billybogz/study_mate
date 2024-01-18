@@ -19,7 +19,12 @@ class NextButton extends StatelessWidget {
       builder: (context, state) {
         if (state is ExamDone) {
           String? selectedAnswer = state.answerEntity?.selectedAnswer;
-          if (selectedAnswer == null || selectedAnswer.isEmpty) {
+          int? wrongAnswerCount = state.wrongAnswerCount;
+          bool shouldShow = selectedAnswer != null &&
+              selectedAnswer.isNotEmpty &&
+              wrongAnswerCount < 3;
+
+          if (!shouldShow) {
             return const SizedBox(height: 114);
           }
           return Padding(

@@ -48,14 +48,12 @@ class SelectExamPeriodView extends StatelessWidget {
         BlocConsumer<RemoteSubjectBloc, RemoteSubjectState>(
           listener: (context, state) {},
           builder: (context, state) {
-            print('🍔 $state');
             if (state is SelectPeriodState) {
               List<dynamic> periods = (state)
                   .subjects
                   .where((element) => element.name == selectedSubject)
                   .first
                   .periods;
-              print('🍔 $periods');
               if (periods.isEmpty) {
                 return Container(
                   color: Colors.white,
@@ -156,7 +154,10 @@ class _ListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text(title),
+      leading: Text(
+        title,
+        style: const TextStyle(fontSize: 14),
+      ),
       trailing: const Icon(Icons.chevron_right_rounded),
       contentPadding: const EdgeInsets.only(left: 16),
       onTap: () {

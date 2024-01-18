@@ -33,16 +33,12 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
       (List<QuestionEntity> questions) {
         questions.shuffle();
         List<String> answers = questions.map((e) => e.answer).toList();
-        // print('🆎 first: ${questions[0]}');
-        print('🆎 answers: ${answers.length}');
-        print('🆎 questions: ${questions.length}');
-        answers.remove(questions[1].answer);
+        answers.remove(questions[0].answer);
         List<OptionsEntity> options = generateOptions(
           answers: answers,
           questions: questions,
-          questionNumber: 1,
+          questionNumber: 0,
         );
-        print('🆎 options:  ${options.length}');
         return emit(ExamDone(
           questions: questions,
           answers: answers,
@@ -57,7 +53,6 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     required List<QuestionEntity> questions,
     required int questionNumber,
   }) {
-    print('🆎 correctAnswerz: ${questions[questionNumber].answer}');
     List<OptionsEntity> options = answers
         .where((option) => ![questions[questionNumber].answer].contains(option))
         .take(3) // Take only the first three unique options
@@ -94,6 +89,15 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         ),
       ));
     }
+    if ((state as ExamDone).questionNumber ==
+        (state as ExamDone).questions.length) {
+      emit(
+        FinishedExam(
+          wrongAnswers: (state as ExamDone).wrongAnswerCount,
+          totalQuestions: (state as ExamDone).questions.length,
+        ),
+      );
+    }
   }
 
   void onNextQuestion(NextQuestion event, Emitter<ExamState> emit) {
@@ -101,7 +105,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     List<OptionsEntity> options = generateOptions(
       answers: (state as ExamDone).answers,
       questions: (state as ExamDone).questions,
-      questionNumber: questionNumber,
+      questionNumber: questionNumber - 1,
     );
     emit((state as ExamDone).copyWith(
       questionNumber: questionNumber,
