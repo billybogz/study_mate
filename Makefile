@@ -52,7 +52,10 @@ xcode:
 	open ios/runner.xcworkspace
 
 flutter_launcher_icons:
-	flutter pub run flutter_launcher_icons
+	dart run flutter_launcher_icons -f flutter_launcher_icons.yaml
+
+flutter_native_splash:
+	dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 
 run_all_dev:
 	flutter run -d all --flavor development --target lib/main_dev.dart

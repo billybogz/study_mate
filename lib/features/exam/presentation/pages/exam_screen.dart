@@ -60,8 +60,9 @@ class _ExamScreenState extends State<ExamScreen> {
           listener: (context, state) {
             if (state is ExamDone && (state).wrongAnswerCount >= 3) {
               int wrongAnswers = (state).wrongAnswerCount;
+              int answeredCount = (state).answeredCount;
               int totalQuestions = (state).questions.length;
-              String score = '${totalQuestions - wrongAnswers}/$totalQuestions';
+              String score = '${answeredCount - wrongAnswers}/$totalQuestions';
               _showDialog(
                 context,
                 title: 'Quiz Over',
@@ -79,7 +80,7 @@ class _ExamScreenState extends State<ExamScreen> {
                 context,
                 title: 'Congratulations on your Exam, Tobby!',
                 body:
-                    '''Woo-hoo! 🎉 You did it! You've successfully conquered the exam and showcased your brilliance. Score: $score''',
+                    "Woo-hoo! 🎉 You did it! You've successfully conquered the exam and showcased your brilliance.",
                 onConfirm: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
@@ -89,7 +90,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   Icons.thumb_up_alt_sharp,
                   color: Colors.purple,
                 ),
-                confirmText: 'Continue Learning',
+                confirmText: 'Grape!',
                 secondDescription: 'Score: $score',
               );
             }

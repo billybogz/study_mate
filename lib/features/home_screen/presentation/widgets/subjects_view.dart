@@ -120,7 +120,7 @@ class _MainView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () => _refreshScreen(),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: GridView.builder(
           itemCount: subjects.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
