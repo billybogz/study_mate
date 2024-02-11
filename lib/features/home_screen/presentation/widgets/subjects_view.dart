@@ -84,7 +84,10 @@ class SubjectsView extends StatelessWidget {
       builder: (BuildContext context, RemoteSubjectState state) {
         if (state is RemoteSubjectLoading) {
           return const Center(
-            child: CircularProgressIndicator.adaptive(),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 240.0),
+              child: CircularProgressIndicator.adaptive(),
+            ),
           );
         }
         if (state is RemoteSubjectDone || state is SelectPeriodState) {
@@ -146,17 +149,18 @@ class _MainView extends StatelessWidget {
             //       serviceLocator<FirestorePopulateRepositoryImpl>();
             //   // repositoryImpl.populateExamType(data: ExamType.data);
             //   repositoryImpl.populateExamQuestions(
-            //     data: Filipino.data,
+            //     data: English.thirdPeriodical,
             //     subjectId: subjects[index].id,
-            //     periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
-            //     period: '3rd Monthly Exam',
+            //     periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
+            //     period: '3rd Periodical Exam',
             //   );
             // },
             onTap: () => context.read<RemoteSubjectBloc>().add(
-                SelectPeriodEvent(
-                    selectedSubject: subjects[index].name,
-                    subjects: subjects,
-                    subjectId: subjects[index].id)),
+                  SelectPeriodEvent(
+                      selectedSubject: subjects[index].name,
+                      subjects: subjects,
+                      subjectId: subjects[index].id),
+                ),
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:fuzzy/data/result.dart';
+import 'package:fuzzy/fuzzy.dart';
 import 'package:tobby_reviewer/core/failure.dart';
 import 'package:tobby_reviewer/core/providers/service_locator.dart';
 import 'package:tobby_reviewer/features/exam/data/models/request_question_model.dart';
@@ -23,27 +25,33 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     await Future.delayed(const Duration(seconds: 1));
     Either<Failure, List<QuestionEntity>> result =
         await serviceLocator<GetQuestionsUseCase>().call(
-            params: RequestQuestionModel(
-      subjectId: event.subjectId,
-      periodId: event.periodId,
-      period: event.period,
-    ));
+      params: RequestQuestionModel(
+        subjectId: event.subjectId,
+        periodId: event.periodId,
+        period: event.period,
+      ),
+    );
     return result.fold(
       (Failure error) => emit(ExamError(error)),
       (List<QuestionEntity> questions) {
         questions.shuffle();
+
         List<String> answers = questions.map((e) => e.answer).toList();
         answers.remove(questions[0].answer);
+
         List<OptionsEntity> options = generateOptions(
           answers: answers,
           questions: questions,
           questionNumber: 0,
         );
-        return emit(ExamDone(
-          questions: questions,
-          answers: answers,
-          options: options,
-        ));
+
+        return emit(
+          ExamDone(
+            questions: questions,
+            answers: answers,
+            options: options,
+          ),
+        );
       },
     );
   }
@@ -53,15 +61,67 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     required List<QuestionEntity> questions,
     required int questionNumber,
   }) {
-    List<OptionsEntity> options = answers
-        .where((option) => ![questions[questionNumber].answer].contains(option))
-        .take(3) // Take only the first three unique options
-        .map((e) => OptionsEntity(value: e))
-        .toList()
-      ..add(OptionsEntity(value: questions[questionNumber].answer))
+    List<OptionsEntity> options = [];
+    final String correctAnswer = questions[questionNumber].answer;
+    const int maxOptionsLength = 4;
+    OptionsEntity correctAnswerEntity = OptionsEntity(value: correctAnswer);
+    final fuse = Fuzzy(
+      answers,
+      options: FuzzyOptions(
+        findAllMatches: true,
+        tokenize: true,
+        threshold: 0.5,
+      ),
+    );
+    answers
       ..shuffle()
       ..shuffle();
-    return options;
+
+    final List<Result<dynamic>> result =
+        fuse.search(correctAnswer).take(4).toList();
+
+    List<String> similarTexts = result.map((e) {
+      return e.item.toString();
+    }).toList();
+
+    if (similarTexts.length == 4) {
+      options = similarTexts.map((e) => OptionsEntity(value: e)).toList();
+    }
+
+    if (similarTexts.isNotEmpty && similarTexts.length != 4) {
+      List<OptionsEntity> similarOptions =
+          similarTexts.map((e) => OptionsEntity(value: e)).toList();
+
+      List<OptionsEntity> remainingOptions = answers
+          .where((option) => ![correctAnswer].contains(option))
+          .take((maxOptionsLength - similarTexts.length))
+          .map((e) => OptionsEntity(value: e))
+          .toList();
+
+      options = [...similarOptions, ...remainingOptions];
+
+      if (similarOptions.length == 4) {
+        options = similarOptions;
+      }
+    }
+
+    if (similarTexts.isEmpty) {
+      options = answers
+          .where((option) => ![correctAnswer].contains(option))
+          .take((maxOptionsLength - similarTexts.length))
+          .map((e) => OptionsEntity(value: e))
+          .toList();
+    }
+
+    bool containsEntity = correctAnswerEntity == options.first;
+
+    if (!containsEntity) {
+      options.removeLast();
+      options.add(OptionsEntity(value: correctAnswer));
+    }
+    return options
+      ..shuffle()
+      ..shuffle();
   }
 
   void onSelectAnswer(SelectAnswer event, Emitter<ExamState> emit) async {
@@ -102,21 +162,24 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
 
   void onNextQuestion(NextQuestion event, Emitter<ExamState> emit) {
     int questionNumber = (state as ExamDone).questionNumber + 1;
+
     List<OptionsEntity> options = generateOptions(
       answers: (state as ExamDone).answers,
       questions: (state as ExamDone).questions,
       questionNumber: questionNumber - 1,
     );
-    emit((state as ExamDone).copyWith(
-      questionNumber: questionNumber,
-      answerEntity: AnswerEntity(
-        questionId: '',
-        question: '',
-        selectedAnswer: '',
-        correctAnswer: '',
+    emit(
+      (state as ExamDone).copyWith(
+        questionNumber: questionNumber,
+        answerEntity: AnswerEntity(
+          questionId: '',
+          question: '',
+          selectedAnswer: '',
+          correctAnswer: '',
+        ),
+        options: options,
       ),
-      options: options,
-    ));
+    );
   }
 
   void onGetExamType(GetExamType event, Emitter<ExamState> emit) async {
