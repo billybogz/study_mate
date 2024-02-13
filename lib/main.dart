@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/core/providers/service_locator.dart';
+import 'package:tobby_reviewer/core/utils/app_theme/text_theme.dart';
 import 'package:tobby_reviewer/features/exam/presentation/bloc/exam_bloc.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/pages/home_screen.dart';
@@ -34,9 +35,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          textTheme: textTheme,
         ),
         home: const HomeScreen(),
-        // home: const ExamScreen(subject: 'sibika'),
         debugShowCheckedModeBanner: false,
       ),
     );

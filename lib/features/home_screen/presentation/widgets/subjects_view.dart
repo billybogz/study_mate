@@ -1,36 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobby_reviewer/core/utils/extensions/context_extension.dart';
 import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_state.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/widgets/select_exam_period_view.dart';
 
-Color? getContainerColor(String color) {
-  switch (color) {
-    case 'blue':
-      return Colors.blue[800];
-    case 'yellow':
-      return Colors.yellow[800];
-    case 'red':
-      return Colors.red[800];
-    case 'orange':
-      return Colors.orange[800];
-    case 'blueGrey':
-      return Colors.blueGrey[800];
-    case 'green':
-      return Colors.green[800];
-    case 'purple':
-      return Colors.purple[800];
-    case 'teal':
-      return Colors.teal[800];
-    case 'pink':
-      return Colors.pink[800];
-    case 'brown':
-      return Colors.brown[800];
-    default:
-      return Colors.blue[800];
-  }
+Color? getColor(String color) {
+  return switch (color) {
+    'blue' => Colors.blue[800],
+    'yellow' => Colors.yellow[800],
+    'red' => Colors.red[800],
+    'orange' => Colors.orange[800],
+    'blueGrey' => Colors.blueGrey[800],
+    'green' => Colors.green[800],
+    'purple' => Colors.purple[800],
+    'teal' => Colors.teal[800],
+    'pink' => Colors.pink[800],
+    'brown' => Colors.brown[800],
+    _ => Colors.blue[800]
+  };
+}
+
+IconData getIcon(String subject) {
+  return switch (subject.toLowerCase()) {
+    'english' => Icons.book_rounded,
+    'values' => Icons.heart_broken,
+    'sibika' => Icons.history_edu_outlined,
+    'science' => Icons.science_outlined,
+    'filipino' => Icons.local_activity,
+    'hele' => Icons.task,
+    'journalism' => Icons.newspaper,
+    'mathematics' => Icons.calculate,
+    'mapeh' => Icons.music_note,
+    'computer' => Icons.computer,
+    _ => Icons.science_outlined
+  };
 }
 
 void showModal(
@@ -137,15 +143,24 @@ class _MainView extends StatelessWidget {
           ),
           itemBuilder: (context, index) => InkWell(
             child: Container(
-              color: getContainerColor(subjects[index].color),
-              child: Center(
-                child: Text(
-                  subjects[index].name.toUpperCase(),
-                  style: const TextStyle(
+              color: getColor(subjects[index].color),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    getIcon(subjects[index].name),
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    subjects[index].name.toUpperCase(),
+                    style: context.textTheme.bodyLarge!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
-                      fontSize: 16),
-                ),
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ],
               ),
             ),
             // onTap: () {
@@ -153,7 +168,7 @@ class _MainView extends StatelessWidget {
             //       serviceLocator<FirestorePopulateRepository>();
             //   // repositoryImpl.populateExamType(data: ExamType.data);
             //   repositoryImpl.populateExamQuestions(
-            //     data: Sibika.thirdPeriodical,
+            //     data: Filipino.thirdPeriodical,
             //     subjectId: subjects[index].id,
             //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
             //     // period: '3rd Monthly Exam',
