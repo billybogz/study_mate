@@ -1,5 +1,5 @@
 class Science {
-  static const List<Map<String, dynamic>> data = [
+  static const List<Map<String, dynamic>> thirdMonthly = [
     {
       "answer": "reproduction",
       "question": "the means of all organisms to make new organisms."

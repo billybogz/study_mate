@@ -50,10 +50,12 @@ void showModal(
     isDismissible: false,
     isScrollControlled: true,
     context: context,
-    builder: (_) => SelectExamPeriodView(context,
-        subjects: subjects,
-        selectedSubject: selectedSubject,
-        subjectId: subjectId),
+    builder: (_) => SelectExamPeriodView(
+      context,
+      subjects: subjects,
+      selectedSubject: selectedSubject,
+      subjectId: subjectId,
+    ),
   );
 }
 
@@ -70,10 +72,12 @@ class SubjectsView extends StatelessWidget {
           context.read<RemoteSubjectBloc>().add(const GetSubjects());
         }
         if (state is SelectPeriodState) {
-          showModal(context,
-              selectedSubject: state.selectedSubject,
-              subjects: state.subjects,
-              subjectId: state.subjectId);
+          showModal(
+            context,
+            selectedSubject: state.selectedSubject,
+            subjects: state.subjects,
+            subjectId: state.subjectId,
+          );
         }
       },
       buildWhen: (previous, current) {
@@ -145,22 +149,26 @@ class _MainView extends StatelessWidget {
               ),
             ),
             // onTap: () {
-            //   FirestorePopulateRepositoryImpl repositoryImpl =
-            //       serviceLocator<FirestorePopulateRepositoryImpl>();
+            //   FirestorePopulateRepository repositoryImpl =
+            //       serviceLocator<FirestorePopulateRepository>();
             //   // repositoryImpl.populateExamType(data: ExamType.data);
             //   repositoryImpl.populateExamQuestions(
-            //     data: English.thirdPeriodical,
+            //     data: Sibika.thirdPeriodical,
             //     subjectId: subjects[index].id,
+            //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
+            //     // period: '3rd Monthly Exam',
             //     periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
             //     period: '3rd Periodical Exam',
             //   );
             // },
-            onTap: () => context.read<RemoteSubjectBloc>().add(
-                  SelectPeriodEvent(
-                      selectedSubject: subjects[index].name,
-                      subjects: subjects,
-                      subjectId: subjects[index].id),
-                ),
+            onTap: () {
+              context.read<RemoteSubjectBloc>().add(
+                    SelectPeriodEvent(
+                        selectedSubject: subjects[index].name,
+                        subjects: subjects,
+                        subjectId: subjects[index].id),
+                  );
+            },
           ),
         ),
       ),

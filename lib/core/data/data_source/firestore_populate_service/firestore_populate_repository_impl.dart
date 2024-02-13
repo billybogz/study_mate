@@ -66,7 +66,12 @@ class FirestorePopulateRepositoryImpl implements FirestorePopulateRepository {
       });
 
       await subjectDoc.update({
-        'periods': FieldValue.arrayUnion([period]),
+        'periods': FieldValue.arrayUnion([
+          {
+            'period': period,
+            'periodId': periodId,
+          }
+        ]),
       });
     }
     print('🏀 Data saved to Firestore.');

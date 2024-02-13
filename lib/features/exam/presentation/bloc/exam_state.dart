@@ -83,8 +83,10 @@ class FinishedExam extends ExamState {
   const FinishedExam({
     required this.wrongAnswers,
     required this.totalQuestions,
+    required this.answeredQuestions,
   });
 
   final int wrongAnswers;
   final int totalQuestions;
+  final int answeredQuestions;
 }

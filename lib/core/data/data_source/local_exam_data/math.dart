@@ -1,5 +1,5 @@
 class Math {
-  static const List<Map<String, dynamic>> data = [
+  static const List<Map<String, dynamic>> thirdMonthly = [
     {
       "answer": "Algebra",
       "question":

@@ -27,8 +27,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         await serviceLocator<GetQuestionsUseCase>().call(
       params: RequestQuestionModel(
         subjectId: event.subjectId,
-        periodId: event.periodId,
-        period: event.period,
+        periodEntity: event.periodEntity,
       ),
     );
     return result.fold(
@@ -77,15 +76,22 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
       ..shuffle()
       ..shuffle();
 
-    final List<Result<dynamic>> result =
-        fuse.search(correctAnswer).take(4).toList();
+    final List<Result<dynamic>> result = fuse.search(correctAnswer).toList();
 
-    List<String> similarTexts = result.map((e) {
-      return e.item.toString();
-    }).toList();
+    List<String> similarTexts = result
+        .map((e) {
+          return e.item.toString();
+        })
+        .toSet()
+        .toList();
 
-    if (similarTexts.length == 4) {
-      options = similarTexts.map((e) => OptionsEntity(value: e)).toList();
+    if (similarTexts.length >= 4) {
+      options = similarTexts
+          .map((e) => OptionsEntity(value: e))
+          .toList()
+          .toSet()
+          .take(4)
+          .toList();
     }
 
     if (similarTexts.isNotEmpty && similarTexts.length != 4) {
@@ -93,13 +99,17 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
           similarTexts.map((e) => OptionsEntity(value: e)).toList();
 
       List<OptionsEntity> remainingOptions = answers
-          .where((option) => ![correctAnswer].contains(option))
-          .take((maxOptionsLength - similarTexts.length))
+          .where((answer) => ![correctAnswer, ...similarTexts].contains(answer))
+          .toSet()
+          .take((maxOptionsLength -
+              (similarTexts.length > 4 ? 4 : similarTexts.length)))
           .map((e) => OptionsEntity(value: e))
           .toList();
 
-      options = [...similarOptions, ...remainingOptions];
-
+      options = <OptionsEntity>{...similarOptions, ...remainingOptions}
+          .toSet()
+          .take(4)
+          .toList();
       if (similarOptions.length == 4) {
         options = similarOptions;
       }
@@ -119,6 +129,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
       options.removeLast();
       options.add(OptionsEntity(value: correctAnswer));
     }
+
     return options
       ..shuffle()
       ..shuffle();
@@ -153,9 +164,9 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         (state as ExamDone).questions.length) {
       emit(
         FinishedExam(
-          wrongAnswers: (state as ExamDone).wrongAnswerCount,
-          totalQuestions: (state as ExamDone).questions.length,
-        ),
+            wrongAnswers: (state as ExamDone).wrongAnswerCount,
+            totalQuestions: (state as ExamDone).questions.length,
+            answeredQuestions: (state as ExamDone).answeredCount),
       );
     }
   }

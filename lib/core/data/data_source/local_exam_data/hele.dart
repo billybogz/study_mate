@@ -1,5 +1,5 @@
 class Hele {
-  static const List<Map<String, dynamic>> data = [
+  static const List<Map<String, dynamic>> thirdMonthly = [
     {
       "answer": "goals",
       "question": "results or dreams that want to be achieved."

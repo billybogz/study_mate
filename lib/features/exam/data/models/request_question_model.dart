@@ -1,27 +1,25 @@
+import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
+
 class RequestQuestionModel {
   const RequestQuestionModel({
     required this.subjectId,
-    required this.periodId,
-    required this.period,
+    required this.periodEntity,
   });
 
   final String subjectId;
-  final String periodId;
-  final String period;
+  final PeriodEntity periodEntity;
 
   factory RequestQuestionModel.fromJson(Map<String, dynamic> map) {
     return RequestQuestionModel(
       subjectId: map['subjectId'] ?? '',
-      periodId: map['periodId'] ?? '',
-      period: map['period'] ?? '',
+      periodEntity: map['period'] ?? PeriodEntity(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'subjectId': subjectId,
-      'periodId': periodId,
-      'period': period,
+      'periodEntity': periodEntity,
     };
   }
 }

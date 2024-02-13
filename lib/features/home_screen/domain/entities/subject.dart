@@ -1,28 +1,30 @@
-import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
 
-class SubjectEntity extends Equatable {
-  final String id;
-  final String name;
-  final String color;
-  final int index;
-  final List<dynamic> periods;
+part 'subject.g.dart';
 
-  const SubjectEntity({
-    required this.id,
-    required this.name,
-    required this.color,
-    required this.index,
-    this.periods = const [],
+@JsonSerializable()
+class SubjectEntity {
+  @JsonKey(name: 'id', defaultValue: '')
+  String id;
+  @JsonKey(name: 'name', defaultValue: '')
+  String name;
+  @JsonKey(name: 'color', defaultValue: '')
+  String color;
+  @JsonKey(name: 'index', defaultValue: 0)
+  int index;
+  @JsonKey(name: 'periods', defaultValue: <PeriodEntity>[])
+  List<PeriodEntity> periods;
+
+  SubjectEntity({
+    this.id = '',
+    this.name = '',
+    this.color = '',
+    this.index = 0,
+    this.periods = const <PeriodEntity>[],
   });
 
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      name,
-      color,
-      index,
-      periods,
-    ];
-  }
+  factory SubjectEntity.fromJson(Map<String, dynamic> json) =>
+      _$SubjectEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$SubjectEntityToJson(this);
 }

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tobby_reviewer/core/data/data_source/firestore_populate_service/firestore_populate_repository.dart';
 import 'package:tobby_reviewer/core/data/data_source/firestore_populate_service/firestore_populate_repository_impl.dart';
 import 'package:tobby_reviewer/features/exam/data/repositories/question_repository_impl.dart';
 import 'package:tobby_reviewer/features/exam/domain/repositories/question_repository.dart';
 import 'package:tobby_reviewer/features/exam/domain/usecases/get_questions_usecase.dart';
 import 'package:tobby_reviewer/features/home_screen/data/repositories/Subject_repository_impl.dart';
+import 'package:tobby_reviewer/features/home_screen/domain/repositories/subject_repository.dart';
 import 'package:tobby_reviewer/features/home_screen/domain/usecases/get_subject.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -21,10 +23,10 @@ Future<void> setUpServiceLocator() async {
       .registerLazySingleton<GetQuestionsUseCase>(() => GetQuestionsUseCase());
 
   //repositories
-  serviceLocator.registerFactory<FirestorePopulateRepositoryImpl>(
+  serviceLocator.registerFactory<FirestorePopulateRepository>(
     () => FirestorePopulateRepositoryImpl(),
   );
-  serviceLocator.registerFactory<SubjectRepositoryImpl>(
+  serviceLocator.registerFactory<SubjectRepository>(
     () => SubjectRepositoryImpl(),
   );
   serviceLocator.registerFactory<QuestionRepository>(

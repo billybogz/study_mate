@@ -141,7 +141,7 @@ class English {
           "is a kind of literature that pertains to a short narrative text of interesting and entertaining events."
     }
   ];
-  static const List<Map<String, dynamic>> data = [
+  static const List<Map<String, dynamic>> thirdMonthly = [
     {
       "answer": "reproduction",
       "question": "the means of all organisms to make new organisms."

@@ -11,11 +11,12 @@ class QuestionRepositoryImpl implements QuestionRepository {
   @override
   Future<Either<Failure, List<QuestionModel>>> getQuestions(
       RequestQuestionModel requestModel) async {
-    final CollectionReference<Map<String, dynamic>> questionsCollection =
+    final Query<Map<String, dynamic>> questionsCollection =
         serviceLocator<FirebaseFirestore>()
             .collection(FirestoreConstants.subjects)
             .doc(requestModel.subjectId)
-            .collection(FirestoreConstants.questions);
+            .collection(FirestoreConstants.questions)
+            .where('periodId', isEqualTo: requestModel.periodEntity.periodId);
     try {
       final QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await questionsCollection.get();

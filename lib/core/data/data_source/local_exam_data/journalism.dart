@@ -1,5 +1,5 @@
 class Journalism {
-  static const List<Map<String, dynamic>> data = [
+  static const List<Map<String, dynamic>> thirdMonthly = [
     {
       "answer": "lead",
       "question": "is the most important part of a news story."

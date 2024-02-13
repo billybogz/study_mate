@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:tobby_reviewer/core/constants/firestore_collection_constants.dart';

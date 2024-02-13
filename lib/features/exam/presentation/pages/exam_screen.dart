@@ -7,20 +7,23 @@ import 'package:tobby_reviewer/core/widgets/custom_dialog.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/exam_item_view.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/next_button.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/progress_counter_view.dart';
+import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
+import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
 
 class ExamScreen extends StatefulWidget {
   const ExamScreen({
     super.key,
     required this.subject,
     required this.subjectId,
-    required this.periodId,
-    required this.period,
+    required this.periodEntity,
+    required this.mContext,
   });
 
   final String subject;
   final String subjectId;
-  final String periodId;
-  final String period;
+  final PeriodEntity periodEntity;
+  final BuildContext mContext;
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -35,8 +38,7 @@ class _ExamScreenState extends State<ExamScreen> {
     bloc.add(
       GetQuestions(
         subjectId: widget.subjectId,
-        periodId: widget.periodId,
-        period: widget.period,
+        periodEntity: widget.periodEntity,
       ),
     );
     super.initState();
@@ -59,10 +61,9 @@ class _ExamScreenState extends State<ExamScreen> {
         child: BlocConsumer<ExamBloc, ExamState>(
           listener: (context, state) {
             if (state is ExamDone && (state).wrongAnswerCount >= 3) {
-              int wrongAnswers = (state).wrongAnswerCount;
               int answeredCount = (state).answeredCount;
               int totalQuestions = (state).questions.length;
-              String score = '${answeredCount - wrongAnswers}/$totalQuestions';
+              String score = '${answeredCount - 3}/$totalQuestions';
               _showDialog(
                 context,
                 title: 'Quiz Over',
@@ -85,6 +86,9 @@ class _ExamScreenState extends State<ExamScreen> {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  widget.mContext
+                      .read<RemoteSubjectBloc>()
+                      .add(const GetSubjects());
                 },
                 icon: const Icon(
                   Icons.thumb_up_alt_sharp,
@@ -144,8 +148,7 @@ class _ExamScreenState extends State<ExamScreen> {
     bloc.add(
       GetQuestions(
         subjectId: widget.subjectId,
-        periodId: widget.periodId,
-        period: widget.period,
+        periodEntity: widget.periodEntity,
       ),
     );
   }

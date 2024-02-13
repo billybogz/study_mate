@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tobby_reviewer/features/exam/domain/entities/answer/answer_entity.dart';
+import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
 
 abstract class ExamEvent extends Equatable {
   const ExamEvent();
@@ -11,13 +12,11 @@ abstract class ExamEvent extends Equatable {
 class GetQuestions extends ExamEvent {
   const GetQuestions({
     required this.subjectId,
-    required this.periodId,
-    required this.period,
+    required this.periodEntity,
   });
 
   final String subjectId;
-  final String periodId;
-  final String period;
+  final PeriodEntity periodEntity;
 }
 
 class SelectAnswer extends ExamEvent {
