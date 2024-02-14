@@ -25,5 +25,5 @@ class OptionsEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [value, isSelected, isCorrect];
+  List<Object?> get props => <Object?>[value, isSelected, isCorrect];
 }

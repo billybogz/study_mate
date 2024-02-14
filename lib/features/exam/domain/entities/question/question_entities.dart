@@ -13,7 +13,7 @@ class QuestionEntity extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
+    return <Object?>[
       questionId,
       answer,
       question,

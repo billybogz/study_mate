@@ -22,7 +22,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
 
   void onGetQuestions(GetQuestions event, Emitter<ExamState> emit) async {
     emit(const ExamLoading());
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<bool>.delayed(const Duration(seconds: 1));
     Either<Failure, List<QuestionEntity>> result =
         await serviceLocator<GetQuestionsUseCase>().call(
       params: RequestQuestionModel(
@@ -35,7 +35,8 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
       (List<QuestionEntity> questions) {
         questions.shuffle();
 
-        List<String> answers = questions.map((e) => e.answer).toList();
+        List<String> answers =
+            questions.map((QuestionEntity e) => e.answer).toList();
         answers.remove(questions[0].answer);
 
         List<OptionsEntity> options = generateOptions(
@@ -60,13 +61,14 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     required List<QuestionEntity> questions,
     required int questionNumber,
   }) {
-    List<OptionsEntity> options = [];
+    List<OptionsEntity> options = <OptionsEntity>[];
     final String correctAnswer = questions[questionNumber].answer;
+    print('🍔 correctAnswer: $correctAnswer');
     const int maxOptionsLength = 4;
     OptionsEntity correctAnswerEntity = OptionsEntity(value: correctAnswer);
-    final fuse = Fuzzy(
+    final Fuzzy<dynamic> fuse = Fuzzy<dynamic>(
       answers,
-      options: FuzzyOptions(
+      options: FuzzyOptions<dynamic>(
         findAllMatches: true,
         tokenize: true,
         threshold: 0.5,
@@ -79,7 +81,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     final List<Result<dynamic>> result = fuse.search(correctAnswer).toList();
 
     List<String> similarTexts = result
-        .map((e) {
+        .map((Result e) {
           return e.item.toString();
         })
         .toSet()
@@ -87,7 +89,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
 
     if (similarTexts.length >= 4) {
       options = similarTexts
-          .map((e) => OptionsEntity(value: e))
+          .map((String e) => OptionsEntity(value: e))
           .toList()
           .toSet()
           .take(4)
@@ -96,14 +98,19 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
 
     if (similarTexts.isNotEmpty && similarTexts.length != 4) {
       List<OptionsEntity> similarOptions =
-          similarTexts.map((e) => OptionsEntity(value: e)).toList();
+          similarTexts.map((String e) => OptionsEntity(value: e)).toList();
 
       List<OptionsEntity> remainingOptions = answers
-          .where((answer) => ![correctAnswer, ...similarTexts].contains(answer))
+          .where(
+            (String answer) =>
+                !<String>[correctAnswer, ...similarTexts].contains(answer),
+          )
           .toSet()
-          .take((maxOptionsLength -
-              (similarTexts.length > 4 ? 4 : similarTexts.length)))
-          .map((e) => OptionsEntity(value: e))
+          .take(
+            (maxOptionsLength -
+                (similarTexts.length > 4 ? 4 : similarTexts.length)),
+          )
+          .map((String e) => OptionsEntity(value: e))
           .toList();
 
       options = <OptionsEntity>{...similarOptions, ...remainingOptions}
@@ -117,9 +124,9 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
 
     if (similarTexts.isEmpty) {
       options = answers
-          .where((option) => ![correctAnswer].contains(option))
+          .where((String option) => !<String>[correctAnswer].contains(option))
           .take((maxOptionsLength - similarTexts.length))
-          .map((e) => OptionsEntity(value: e))
+          .map((String e) => OptionsEntity(value: e))
           .toList();
     }
 
@@ -140,33 +147,37 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     if (model.correctAnswer != model.selectedAnswer) {
       emit(
         (state as ExamDone).copyWith(
-            isCorrect: false,
-            answerEntity: AnswerEntity(
-              questionId: event.answerModel.questionId,
-              question: event.answerModel.question,
-              selectedAnswer: event.answerModel.selectedAnswer,
-              correctAnswer: event.answerModel.correctAnswer,
-            ),
-            wrongAnswerCount: (state as ExamDone).wrongAnswerCount + 1),
+          isCorrect: false,
+          answerEntity: AnswerEntity(
+            questionId: event.answerModel.questionId,
+            question: event.answerModel.question,
+            selectedAnswer: event.answerModel.selectedAnswer,
+            correctAnswer: event.answerModel.correctAnswer,
+          ),
+          wrongAnswerCount: (state as ExamDone).wrongAnswerCount + 1,
+        ),
       );
     } else {
-      emit((state as ExamDone).copyWith(
-        isCorrect: true,
-        answerEntity: AnswerEntity(
-          questionId: event.answerModel.questionId,
-          question: event.answerModel.question,
-          selectedAnswer: event.answerModel.selectedAnswer,
-          correctAnswer: event.answerModel.correctAnswer,
+      emit(
+        (state as ExamDone).copyWith(
+          isCorrect: true,
+          answerEntity: AnswerEntity(
+            questionId: event.answerModel.questionId,
+            question: event.answerModel.question,
+            selectedAnswer: event.answerModel.selectedAnswer,
+            correctAnswer: event.answerModel.correctAnswer,
+          ),
         ),
-      ));
+      );
     }
     if ((state as ExamDone).questionNumber ==
         (state as ExamDone).questions.length) {
       emit(
         FinishedExam(
-            wrongAnswers: (state as ExamDone).wrongAnswerCount,
-            totalQuestions: (state as ExamDone).questions.length,
-            answeredQuestions: (state as ExamDone).answeredCount),
+          wrongAnswers: (state as ExamDone).wrongAnswerCount,
+          totalQuestions: (state as ExamDone).questions.length,
+          answeredQuestions: (state as ExamDone).answeredCount,
+        ),
       );
     }
   }
@@ -200,18 +211,21 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
       (Failure error) => emit(ExamError(error)),
       (List<QuestionEntity> questions) {
         questions.shuffle();
-        List<String> answers = questions.map((e) => e.answer).toList();
+        List<String> answers =
+            questions.map((QuestionEntity e) => e.answer).toList();
         answers.remove(questions[1].answer);
         List<OptionsEntity> options = generateOptions(
           answers: answers,
           questions: questions,
           questionNumber: 1,
         );
-        return emit(ExamDone(
-          questions: questions,
-          answers: answers,
-          options: options,
-        ));
+        return emit(
+          ExamDone(
+            questions: questions,
+            answers: answers,
+            options: options,
+          ),
+        );
       },
     );
   }

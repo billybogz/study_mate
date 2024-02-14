@@ -18,9 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     bloc = BlocProvider.of<RemoteSubjectBloc>(context);
     bloc.add(const GetSubjects());
-    super.initState();
   }
 
   @override
@@ -31,22 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return const AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         body: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
+            children: <Widget>[
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                 child: HomeAppBarView(),
               ),
               // QuickStatesView(),
               Expanded(
-                child: SubjectsView(
-                  bloc: bloc,
-                ),
+                child: SubjectsView(),
               ),
             ],
           ),

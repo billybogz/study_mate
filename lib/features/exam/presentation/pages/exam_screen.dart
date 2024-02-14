@@ -17,13 +17,11 @@ class ExamScreen extends StatefulWidget {
     required this.subject,
     required this.subjectId,
     required this.periodEntity,
-    required this.mContext,
   });
 
   final String subject;
   final String subjectId;
   final PeriodEntity periodEntity;
-  final BuildContext mContext;
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -53,7 +51,7 @@ class _ExamScreenState extends State<ExamScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: ProgressCounterView(),
-          )
+          ),
         ],
       ),
       body: Padding(
@@ -86,9 +84,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
-                  widget.mContext
-                      .read<RemoteSubjectBloc>()
-                      .add(const GetSubjects());
+                  context.read<RemoteSubjectBloc>().add(const GetSubjects());
                 },
                 icon: const Icon(
                   Icons.thumb_up_alt_sharp,

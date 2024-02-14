@@ -41,7 +41,7 @@ class CustomDialog extends StatelessWidget {
         systemNavigationBarColor: Colors.black54,
       ),
       child: WillPopScope(
-        onWillPop: () => Future.value(false),
+        onWillPop: () => Future<bool>.value(false),
         child: Dialog(
           surfaceTintColor: Colors.white,
           insetPadding: const EdgeInsets.all(
@@ -58,7 +58,7 @@ class CustomDialog extends StatelessWidget {
             child: Column(
               key: const Key('main_column_key'),
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 if (icon != null)
                   Center(
                     child: SizedBox(
@@ -76,11 +76,13 @@ class CustomDialog extends StatelessWidget {
                   ),
                 if (icon != null) const SizedBox(height: 16),
                 _TitleView(title: title),
-                if (customBody != null) ...[
+                if (customBody != null) ...<Widget>[
                   const SizedBox(height: 8),
                   customBody!,
                 ],
-                if (body != null && body != '' && customBody == null) ...[
+                if (body != null &&
+                    body != '' &&
+                    customBody == null) ...<Widget>[
                   const SizedBox(height: 8),
                   ConstrainedBox(
                     key: const Key('constrainedbox_key'),
@@ -94,7 +96,8 @@ class CustomDialog extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (secondDescription != null && secondDescription != '') ...[
+                if (secondDescription != null &&
+                    secondDescription != '') ...<Widget>[
                   const SizedBox(height: 16),
                   ConstrainedBox(
                     constraints: BoxConstraints.loose(
@@ -108,14 +111,14 @@ class CustomDialog extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(height: 32),
-                if (onCancel == null) ...[
+                if (onCancel == null) ...<Widget>[
                   _ConfirmButton(confirmText: confirmText),
                 ],
-                if (onCancel != null) ...[
-                  if (areButtonsStacked) ...[
+                if (onCancel != null) ...<Widget>[
+                  if (areButtonsStacked) ...<Widget>[
                     Column(
                       key: const Key('child_column_key'),
-                      children: [
+                      children: <Widget>[
                         ElevatedButton(
                           onPressed: () {},
                           child: const Text('O'),
@@ -124,9 +127,9 @@ class CustomDialog extends StatelessWidget {
                         if (showCancelButton) const _CancelButton(),
                       ],
                     ),
-                  ] else ...[
+                  ] else ...<Widget>[
                     Row(
-                      children: [
+                      children: <Widget>[
                         if (showCancelButton)
                           const Expanded(
                             key: Key('cancel_expanded_key'),

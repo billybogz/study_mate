@@ -5,5 +5,6 @@ import 'package:tobby_reviewer/features/exam/domain/entities/question/question_e
 
 abstract class QuestionRepository {
   Future<Either<Failure, List<QuestionEntity>>> getQuestions(
-      RequestQuestionModel requestModel);
+    RequestQuestionModel requestModel,
+  );
 }

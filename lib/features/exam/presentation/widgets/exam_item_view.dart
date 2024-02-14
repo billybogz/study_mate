@@ -94,8 +94,11 @@ class ExamItemView extends StatelessWidget {
     );
   }
 
-  Color getButtonColor(
-      {String? selectedAnswer, String? correctAnswer, required String option}) {
+  Color getButtonColor({
+    String? selectedAnswer,
+    String? correctAnswer,
+    required String option,
+  }) {
     Color color = selectedAnswer != null && selectedAnswer == option
         ? selectedAnswer == correctAnswer
             ? Colors.greenAccent
@@ -104,8 +107,11 @@ class ExamItemView extends StatelessWidget {
     return color;
   }
 
-  Color getTextColor(
-      {String? selectedAnswer, String? correctAnswer, required String option}) {
+  Color getTextColor({
+    String? selectedAnswer,
+    String? correctAnswer,
+    required String option,
+  }) {
     Color color = selectedAnswer != null && selectedAnswer == option
         ? selectedAnswer == correctAnswer
             ? Colors.deepPurple
@@ -114,8 +120,11 @@ class ExamItemView extends StatelessWidget {
     return color;
   }
 
-  Widget getIcon(
-      {String? selectedAnswer, String? correctAnswer, required String option}) {
+  Widget getIcon({
+    String? selectedAnswer,
+    String? correctAnswer,
+    required String option,
+  }) {
     Widget icon = selectedAnswer != null && selectedAnswer == option
         ? selectedAnswer == correctAnswer
             ? const Padding(

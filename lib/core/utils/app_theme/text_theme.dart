@@ -87,7 +87,7 @@ class TextStyles {
     fontFamily: 'Poppins',
   );
 
-  static final h3 = _baseTextStyle.copyWith(
+  static final TextStyle h3 = _baseTextStyle.copyWith(
     color: Colors.black,
     fontSize: 24,
     fontWeight: FontWeight.bold,

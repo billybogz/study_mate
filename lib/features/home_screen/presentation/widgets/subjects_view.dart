@@ -44,6 +44,7 @@ void showModal(
   required String selectedSubject,
   required String subjectId,
   required List<SubjectEntity> subjects,
+  required RemoteSubjectState state,
 }) {
   showModalBottomSheet(
     shape: const RoundedRectangleBorder(
@@ -57,32 +58,48 @@ void showModal(
     isScrollControlled: true,
     context: context,
     builder: (_) => SelectExamPeriodView(
-      context,
-      subjects: subjects,
-      selectedSubject: selectedSubject,
-      subjectId: subjectId,
+      args: SelectExamPeriodViewArgs(
+        subjects: subjects,
+        selectedSubject: selectedSubject,
+        subjectId: subjectId,
+        mContext: context,
+        state: state,
+      ),
     ),
   );
 }
 
-class SubjectsView extends StatelessWidget {
-  const SubjectsView({super.key, required this.bloc});
-
-  final RemoteSubjectBloc bloc;
+class SubjectsView extends StatefulWidget {
+  const SubjectsView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<SubjectsView> createState() => _SubjectsViewState();
+}
+
+class _SubjectsViewState extends State<SubjectsView> {
+  late RemoteSubjectBloc bloc;
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<RemoteSubjectBloc>(context);
+    bloc.add(const GetSubjects());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext _) {
     return BlocConsumer<RemoteSubjectBloc, RemoteSubjectState>(
-      listener: (BuildContext context, state) {
+      listener: (BuildContext mContext, RemoteSubjectState state) {
         if (state is RemoteSubjectLoading) {
-          context.read<RemoteSubjectBloc>().add(const GetSubjects());
+          mContext.read<RemoteSubjectBloc>().add(const GetSubjects());
         }
         if (state is SelectPeriodState) {
           showModal(
-            context,
+            mContext,
             selectedSubject: state.selectedSubject,
             subjects: state.subjects,
             subjectId: state.subjectId,
+            state: state,
           );
         }
       },
@@ -131,7 +148,7 @@ class _MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => _refreshScreen(),
+      onRefresh: () => _refreshScreen(context),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: GridView.builder(
@@ -141,7 +158,7 @@ class _MainView extends StatelessWidget {
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
           ),
-          itemBuilder: (context, index) => InkWell(
+          itemBuilder: (_, index) => InkWell(
             child: Container(
               color: getColor(subjects[index].color),
               child: Column(
@@ -177,12 +194,13 @@ class _MainView extends StatelessWidget {
             //   );
             // },
             onTap: () {
-              context.read<RemoteSubjectBloc>().add(
-                    SelectPeriodEvent(
-                        selectedSubject: subjects[index].name,
-                        subjects: subjects,
-                        subjectId: subjects[index].id),
-                  );
+              bloc.add(
+                SelectPeriodEvent(
+                  selectedSubject: subjects[index].name,
+                  subjects: subjects,
+                  subjectId: subjects[index].id,
+                ),
+              );
             },
           ),
         ),
@@ -190,7 +208,8 @@ class _MainView extends StatelessWidget {
     );
   }
 
-  Future<void> _refreshScreen() async {
+  Future<void> _refreshScreen(BuildContext context) async {
+    final bloc = BlocProvider.of<RemoteSubjectBloc>(context);
     bloc.add(RefreshScreenEvent(bloc));
     await Future.delayed(const Duration(seconds: 2));
     return;

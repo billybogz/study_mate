@@ -7,18 +7,12 @@ part 'subject.g.dart';
 @JsonSerializable()
 class SubjectModel extends SubjectEntity {
   SubjectModel({
-    String id = '',
-    String name = '',
-    String color = '',
-    int index = 0,
-    List<PeriodEntity> periods = const <PeriodEntity>[],
-  }) : super(
-          id: id,
-          name: name,
-          color: color,
-          index: index,
-          periods: periods,
-        );
+    super.id,
+    super.name,
+    super.color,
+    super.index,
+    super.periods,
+  });
 
   factory SubjectModel.fromJson(Map<String, dynamic> json) =>
       _$SubjectModelFromJson(json);

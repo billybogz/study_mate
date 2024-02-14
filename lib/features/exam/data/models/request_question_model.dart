@@ -17,7 +17,7 @@ class RequestQuestionModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'subjectId': subjectId,
       'periodEntity': periodEntity,
     };

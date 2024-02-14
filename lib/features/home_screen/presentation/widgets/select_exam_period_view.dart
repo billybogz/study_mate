@@ -7,70 +7,87 @@ import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/rem
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_state.dart';
 
-class SelectExamPeriodView extends StatelessWidget {
-  const SelectExamPeriodView(
-    this.mContext, {
-    super.key,
-    required this.selectedSubject,
-    required this.subjects,
-    required this.subjectId,
-  });
-
-  final BuildContext mContext;
+class SelectExamPeriodViewArgs {
   final String selectedSubject;
   final String subjectId;
   final List<SubjectEntity> subjects;
+  final BuildContext mContext;
+  final RemoteSubjectState state;
+
+  SelectExamPeriodViewArgs({
+    required this.selectedSubject,
+    required this.subjectId,
+    required this.subjects,
+    required this.mContext,
+    required this.state,
+  });
+}
+
+class SelectExamPeriodView extends StatelessWidget {
+  const SelectExamPeriodView({super.key, required this.args});
+
+  final SelectExamPeriodViewArgs args;
 
   @override
   Widget build(BuildContext context) {
     String noExamText =
         "Whoa, looks like this subject is ready and waiting for your next challenge! No exams yet, but don't worry – you've got the power to make it happen. Keep an eye out for upcoming exams and let the learning adventure begin!";
+    List<PeriodEntity> periods = [];
+    if (args.state is SelectPeriodState) {
+      periods = (args.state as SelectPeriodState)
+          .subjects
+          .where((element) => element.name == args.selectedSubject)
+          .first
+          .periods;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(selectedSubject.toUpperCase()),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: InkWell(
-                child: const Icon(
-                  Icons.cancel,
-                ),
-                onTap: () => mContext
-                    .read<RemoteSubjectBloc>()
-                    .add(CloseModalEvent(mContext, subjects: subjects)),
-              ),
-            )
-          ],
+        _TopView(
+          selectedSubject: args.selectedSubject,
+          mContext: args.mContext,
+          subjects: args.subjects,
         ),
-        BlocConsumer<RemoteSubjectBloc, RemoteSubjectState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is SelectPeriodState) {
-              List<PeriodEntity> periods = (state)
-                  .subjects
-                  .where((element) => element.name == selectedSubject)
-                  .first
-                  .periods;
-              if (periods.isEmpty) {
-                return _NoExamView(
-                    noExamText: noExamText,
-                    mContext: mContext,
-                    subjects: subjects);
-              }
-              return _PeriodListView(
-                periods: periods,
-                mContext: mContext,
-                selectedSubject: selectedSubject,
-                subjects: subjects,
-                subjectId: subjectId,
-              );
-            }
-            return const SizedBox.shrink();
-          },
+        if (periods.isEmpty)
+          _NoExamView(noExamText: noExamText, subjects: args.subjects),
+        if (periods.isNotEmpty)
+          _PeriodListView(
+            args,
+            periods: periods,
+          ),
+      ],
+    );
+  }
+}
+
+class _TopView extends StatelessWidget {
+  const _TopView({
+    required this.selectedSubject,
+    required this.mContext,
+    required this.subjects,
+  });
+
+  final String selectedSubject;
+  final BuildContext mContext;
+  final List<SubjectEntity> subjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: Text(selectedSubject.toUpperCase()),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: InkWell(
+            child: const Icon(
+              Icons.cancel,
+            ),
+            onTap: () => mContext
+                .read<RemoteSubjectBloc>()
+                .add(CloseModalEvent(context, subjects: subjects)),
+          ),
         ),
       ],
     );
@@ -78,19 +95,10 @@ class SelectExamPeriodView extends StatelessWidget {
 }
 
 class _PeriodListView extends StatelessWidget {
-  const _PeriodListView({
-    required this.periods,
-    required this.mContext,
-    required this.selectedSubject,
-    required this.subjects,
-    required this.subjectId,
-  });
+  const _PeriodListView(this.args, {required this.periods});
 
+  final SelectExamPeriodViewArgs args;
   final List<PeriodEntity> periods;
-  final BuildContext mContext;
-  final String selectedSubject;
-  final List<SubjectEntity> subjects;
-  final String subjectId;
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +114,9 @@ class _PeriodListView extends StatelessWidget {
                 (periodEntity) => Column(
                   children: [
                     _ListTile(
-                      mContext,
-                      subject: selectedSubject,
-                      subjects: subjects,
-                      subjectId: subjectId,
+                      subject: args.selectedSubject,
+                      subjects: args.subjects,
+                      subjectId: args.subjectId,
                       periodEntity: periodEntity,
                     ),
                     const Divider(thickness: 0.5),
@@ -126,12 +133,10 @@ class _PeriodListView extends StatelessWidget {
 class _NoExamView extends StatelessWidget {
   const _NoExamView({
     required this.noExamText,
-    required this.mContext,
     required this.subjects,
   });
 
   final String noExamText;
-  final BuildContext mContext;
   final List<SubjectEntity> subjects;
 
   @override
@@ -157,9 +162,9 @@ class _NoExamView extends StatelessWidget {
             width: MediaQuery.of(context).size.width - 32,
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
             child: ElevatedButton(
-              onPressed: () => mContext
+              onPressed: () => context
                   .read<RemoteSubjectBloc>()
-                  .add(CloseModalEvent(mContext, subjects: subjects)),
+                  .add(CloseModalEvent(context, subjects: subjects)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple,
               ),
@@ -178,8 +183,7 @@ class _NoExamView extends StatelessWidget {
 }
 
 class _ListTile extends StatelessWidget {
-  const _ListTile(
-    this.mContext, {
+  const _ListTile({
     required this.subject,
     required this.subjects,
     required this.subjectId,
@@ -188,7 +192,6 @@ class _ListTile extends StatelessWidget {
 
   final String subject;
   final String subjectId;
-  final BuildContext mContext;
   final List<SubjectEntity> subjects;
   final PeriodEntity periodEntity;
 
@@ -205,10 +208,10 @@ class _ListTile extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => ExamScreen(
-              subject: subject,
-              subjectId: subjectId,
-              periodEntity: periodEntity,
-              mContext: mContext),
+            subject: subject,
+            subjectId: subjectId,
+            periodEntity: periodEntity,
+          ),
         ),
       ),
     );

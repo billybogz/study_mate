@@ -58,16 +58,16 @@ class FirestorePopulateRepositoryImpl implements FirestorePopulateRepository {
           .collection(FirestoreConstants.questions)
           .doc(data[i]['id']);
 
-      await questionsDoc.set({
+      await questionsDoc.set(<String, dynamic>{
         'index': i,
         'period': period,
         'periodId': periodId,
         ...data[i],
       });
 
-      await subjectDoc.update({
-        'periods': FieldValue.arrayUnion([
-          {
+      await subjectDoc.update(<Object, Object?>{
+        'periods': FieldValue.arrayUnion(<dynamic>[
+          <String, dynamic>{
             'period': period,
             'periodId': periodId,
           }

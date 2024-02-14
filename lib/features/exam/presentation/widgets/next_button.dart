@@ -46,7 +46,7 @@ class NextButton extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );

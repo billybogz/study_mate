@@ -10,7 +10,8 @@ import 'package:tobby_reviewer/features/exam/domain/repositories/question_reposi
 class QuestionRepositoryImpl implements QuestionRepository {
   @override
   Future<Either<Failure, List<QuestionModel>>> getQuestions(
-      RequestQuestionModel requestModel) async {
+    RequestQuestionModel requestModel,
+  ) async {
     final Query<Map<String, dynamic>> questionsCollection =
         serviceLocator<FirebaseFirestore>()
             .collection(FirestoreConstants.subjects)
@@ -21,14 +22,14 @@ class QuestionRepositoryImpl implements QuestionRepository {
       final QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await questionsCollection.get();
 
-      final List<QuestionModel> reports =
-          querySnapshot.docs.map((documentSnapshot) {
-        final data = documentSnapshot.data();
+      final List<QuestionModel> reports = querySnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
+        final Map<String, dynamic> data = documentSnapshot.data();
         return QuestionModel.fromJson(data);
       }).toList();
-      return Right(reports);
+      return Right<Failure, List<QuestionModel>>(reports);
     } on Exception catch (e) {
-      return Left(Exception(e.message));
+      return Left<Failure, List<QuestionModel>>(Exception(e.message));
     }
   }
 }

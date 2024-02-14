@@ -4,7 +4,7 @@ extension StringCasingExtension on String {
 
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
       .split(' ')
-      .map((str) => str.toCapitalized())
+      .map((String str) => str.toCapitalized())
       .join(' ');
 
   String capitalizeFirstLetter() => this[0].toUpperCase() + substring(1);

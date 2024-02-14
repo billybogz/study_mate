@@ -12,16 +12,8 @@ class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
   RemoteSubjectBloc() : super(const RemoteSubjectLoading()) {
     on<GetSubjects>(onGetSubjects);
     on<RefreshScreenEvent>(onRefreshScreen);
-    on<SelectPeriodEvent>((event, emit) {
-      emit(SelectPeriodState(
-          selectedSubject: event.selectedSubject,
-          subjects: event.subjects,
-          subjectId: event.subjectId));
-    });
-    on<CloseModalEvent>((event, emit) {
-      Navigator.pop(event.context);
-      emit(RemoteSubjectDone(subjects: event.subjects));
-    });
+    on<SelectPeriodEvent>(onSelectPeriodEvent);
+    on<CloseModalEvent>(onCloseModalEvent);
   }
 
   void onGetSubjects(
@@ -41,6 +33,27 @@ class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
         );
       },
     );
+  }
+
+  void onSelectPeriodEvent(
+    SelectPeriodEvent event,
+    Emitter<RemoteSubjectState> emit,
+  ) async {
+    emit(
+      SelectPeriodState(
+        selectedSubject: event.selectedSubject,
+        subjects: event.subjects,
+        subjectId: event.subjectId,
+      ),
+    );
+  }
+
+  void onCloseModalEvent(
+    CloseModalEvent event,
+    Emitter<RemoteSubjectState> emit,
+  ) async {
+    Navigator.pop(event.context);
+    emit(RemoteSubjectDone(subjects: event.subjects));
   }
 
   void onRefreshScreen(

@@ -11,8 +11,9 @@ class GetQuestionsUseCase
   QuestionRepository repository = serviceLocator<QuestionRepository>();
 
   @override
-  Future<Either<Failure, List<QuestionEntity>>> call(
-      {RequestQuestionModel? params}) {
+  Future<Either<Failure, List<QuestionEntity>>> call({
+    RequestQuestionModel? params,
+  }) {
     return repository.getQuestions(params!);
   }
 }

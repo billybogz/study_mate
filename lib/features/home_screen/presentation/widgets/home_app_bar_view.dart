@@ -6,7 +6,7 @@ class HomeAppBarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Image(
-      image: AssetImage("assets/images/logo.png"),
+      image: AssetImage('assets/images/logo-text-transparent-bg.png'),
       fit: BoxFit.contain,
       width: 680,
       height: 80,
