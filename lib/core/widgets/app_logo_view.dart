@@ -12,9 +12,9 @@ class AppLogoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/images/logo-text-transparent-bg.png',
-      width: width ?? 130,
-      height: height ?? 130,
+      'assets/images/logo.png',
+      width: width ?? 160,
+      height: height ?? 160,
       fit: BoxFit.fitHeight,
     );
   }

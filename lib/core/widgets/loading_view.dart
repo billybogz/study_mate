@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobby_reviewer/core/widgets/app_logo_view.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
@@ -11,7 +12,7 @@ class LoadingView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // StudyMateLogoView(),
+          AppLogoView(),
           SizedBox(
             height: 32.0,
           ),

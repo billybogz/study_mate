@@ -23,14 +23,16 @@ class _AppVersionViewState extends State<AppVersionView> {
             snapshot.hasError) {
           return const SizedBox.shrink();
         }
-        return Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 2),
-            child: Text(
-              'DFI HS v${snapshot.data!.version}',
-              textAlign: TextAlign.start,
-              style: context.textTheme.labelSmall!.copyWith(fontSize: 10),
+        return SafeArea(
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+              child: Text(
+                'study_mate_tobby v${snapshot.data!.version}',
+                textAlign: TextAlign.start,
+                style: context.textTheme.labelSmall!.copyWith(fontSize: 10),
+              ),
             ),
           ),
         );

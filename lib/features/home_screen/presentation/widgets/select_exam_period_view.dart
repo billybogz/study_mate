@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tobby_reviewer/core/routes/routes.dart';
 import 'package:tobby_reviewer/features/exam/presentation/pages/exam_screen.dart';
 import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
 import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
@@ -204,14 +206,12 @@ class _ListTile extends StatelessWidget {
       ),
       trailing: const Icon(Icons.chevron_right_rounded),
       contentPadding: const EdgeInsets.only(left: 16),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ExamScreen(
-            subject: subject,
-            subjectId: subjectId,
-            periodEntity: periodEntity,
-          ),
+      onTap: () => context.push(
+        GoRoutePath.examScreen,
+        extra: ExamScreenArgs(
+          subject: subject,
+          subjectId: subjectId,
+          periodEntity: periodEntity,
         ),
       ),
     );

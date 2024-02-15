@@ -6,11 +6,11 @@ class HomeAppBarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Image(
-      image: AssetImage('assets/images/logo-text-transparent-bg.png'),
-      fit: BoxFit.contain,
-      width: 680,
-      height: 80,
-      alignment: Alignment.centerLeft,
+      image: AssetImage('assets/images/logo-text.png'),
+      fit: BoxFit.cover,
+      width: 180,
+      height: 90,
+      alignment: Alignment.center,
     );
   }
 }

@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/core/failure.dart';
 import 'package:tobby_reviewer/core/providers/service_locator.dart';
 import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
@@ -62,5 +62,12 @@ class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
   ) async {
     emit((state as RemoteSubjectDone).copyWith(isLoading: true));
     event.bloc.add(const GetSubjects());
+  }
+
+  Future<void> refreshScreen(BuildContext context) async {
+    final bloc = BlocProvider.of<RemoteSubjectBloc>(context);
+    bloc.add(RefreshScreenEvent(bloc));
+    await Future.delayed(const Duration(seconds: 2));
+    return;
   }
 }

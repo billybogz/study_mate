@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/features/exam/domain/entities/answer/answer_entity.dart';
 import 'package:tobby_reviewer/features/exam/domain/entities/options/options_entity.dart';
 import 'package:tobby_reviewer/features/exam/domain/entities/question/question_entities.dart';
@@ -8,10 +9,9 @@ import 'package:tobby_reviewer/features/exam/presentation/bloc/exam_state.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/question_view.dart';
 
 class ExamItemView extends StatelessWidget {
-  const ExamItemView({super.key, required this.state, required this.bloc});
+  const ExamItemView({super.key, required this.state});
 
-  final ExamDone state;
-  final ExamBloc bloc;
+  final ExamDataLoaded state;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,9 @@ class ExamItemView extends StatelessWidget {
     bool isEnable = selectedAnswer != null &&
         selectedAnswer.isNotEmpty &&
         wrongAnswerCount < 3;
-    return Center(
+    bool showOptions = state.showOptions;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,55 +39,59 @@ class ExamItemView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 width: MediaQuery.of(context).size.width / 1.3,
                 height: 64,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: getButtonColor(
-                      selectedAnswer: selectedAnswer,
-                      correctAnswer: correctAnswer,
-                      option: option.value,
-                    ),
-                  ),
-                  onPressed: isEnable
-                      ? () {}
-                      : () => bloc.add(
-                            SelectAnswer(
-                              AnswerEntity(
-                                questionId:
-                                    questions[questionNumber].questionId,
-                                question: questions[questionNumber].question,
-                                selectedAnswer: option.value,
-                                correctAnswer: questions[questionNumber].answer,
+                child: !showOptions
+                    ? const SizedBox.shrink()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: getButtonColor(
+                            selectedAnswer: selectedAnswer,
+                            correctAnswer: correctAnswer,
+                            option: option.value,
+                          ),
+                        ),
+                        onPressed: isEnable
+                            ? () {}
+                            : () => context.read<ExamBloc>().add(
+                                  SelectAnswer(
+                                    AnswerEntity(
+                                      questionId:
+                                          questions[questionNumber].questionId,
+                                      question:
+                                          questions[questionNumber].question,
+                                      selectedAnswer: option.value,
+                                      correctAnswer:
+                                          questions[questionNumber].answer,
+                                    ),
+                                  ),
+                                ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                option.value,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: getTextColor(
+                                    selectedAnswer: selectedAnswer,
+                                    correctAnswer: correctAnswer,
+                                    option: option.value,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          option.value,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: getTextColor(
-                              selectedAnswer: selectedAnswer,
-                              correctAnswer: correctAnswer,
-                              option: option.value,
+                            const SizedBox(width: 12),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: getIcon(
+                                selectedAnswer: selectedAnswer,
+                                correctAnswer: correctAnswer,
+                                option: option.value,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: getIcon(
-                          selectedAnswer: selectedAnswer,
-                          correctAnswer: correctAnswer,
-                          option: option.value,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               );
             }).toList(),
           ],

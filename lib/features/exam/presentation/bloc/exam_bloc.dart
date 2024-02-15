@@ -18,11 +18,12 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     on<SelectAnswer>(onSelectAnswer);
     on<NextQuestion>(onNextQuestion);
     on<GetExamType>(onGetExamType);
+    on<ToggleOptionsVisibility>(onShowOptions);
   }
 
   void onGetQuestions(GetQuestions event, Emitter<ExamState> emit) async {
     emit(const ExamLoading());
-    await Future<bool>.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     Either<Failure, List<QuestionEntity>> result =
         await serviceLocator<GetQuestionsUseCase>().call(
       params: RequestQuestionModel(
@@ -46,7 +47,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         );
 
         return emit(
-          ExamDone(
+          ExamDataLoaded(
             questions: questions,
             answers: answers,
             options: options,
@@ -63,7 +64,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
   }) {
     List<OptionsEntity> options = <OptionsEntity>[];
     final String correctAnswer = questions[questionNumber].answer;
-    print('🍔 correctAnswer: $correctAnswer');
+    // print('🍔 correctAnswer: $correctAnswer');
     const int maxOptionsLength = 4;
     OptionsEntity correctAnswerEntity = OptionsEntity(value: correctAnswer);
     final Fuzzy<dynamic> fuse = Fuzzy<dynamic>(
@@ -146,7 +147,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     AnswerEntity model = event.answerModel;
     if (model.correctAnswer != model.selectedAnswer) {
       emit(
-        (state as ExamDone).copyWith(
+        (state as ExamDataLoaded).copyWith(
           isCorrect: false,
           answerEntity: AnswerEntity(
             questionId: event.answerModel.questionId,
@@ -154,12 +155,12 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
             selectedAnswer: event.answerModel.selectedAnswer,
             correctAnswer: event.answerModel.correctAnswer,
           ),
-          wrongAnswerCount: (state as ExamDone).wrongAnswerCount + 1,
+          wrongAnswerCount: (state as ExamDataLoaded).wrongAnswerCount + 1,
         ),
       );
     } else {
       emit(
-        (state as ExamDone).copyWith(
+        (state as ExamDataLoaded).copyWith(
           isCorrect: true,
           answerEntity: AnswerEntity(
             questionId: event.answerModel.questionId,
@@ -170,28 +171,28 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         ),
       );
     }
-    if ((state as ExamDone).questionNumber ==
-        (state as ExamDone).questions.length) {
+    if ((state as ExamDataLoaded).questionNumber ==
+        (state as ExamDataLoaded).questions.length) {
       emit(
         FinishedExam(
-          wrongAnswers: (state as ExamDone).wrongAnswerCount,
-          totalQuestions: (state as ExamDone).questions.length,
-          answeredQuestions: (state as ExamDone).answeredCount,
+          wrongAnswers: (state as ExamDataLoaded).wrongAnswerCount,
+          totalQuestions: (state as ExamDataLoaded).questions.length,
+          answeredQuestions: (state as ExamDataLoaded).answeredCount,
         ),
       );
     }
   }
 
   void onNextQuestion(NextQuestion event, Emitter<ExamState> emit) {
-    int questionNumber = (state as ExamDone).questionNumber + 1;
+    int questionNumber = (state as ExamDataLoaded).questionNumber + 1;
 
     List<OptionsEntity> options = generateOptions(
-      answers: (state as ExamDone).answers,
-      questions: (state as ExamDone).questions,
+      answers: (state as ExamDataLoaded).answers,
+      questions: (state as ExamDataLoaded).questions,
       questionNumber: questionNumber - 1,
     );
     emit(
-      (state as ExamDone).copyWith(
+      (state as ExamDataLoaded).copyWith(
         questionNumber: questionNumber,
         answerEntity: AnswerEntity(
           questionId: '',
@@ -200,6 +201,17 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
           correctAnswer: '',
         ),
         options: options,
+        showOptions: false,
+      ),
+    );
+  }
+
+  void onShowOptions(ToggleOptionsVisibility event, Emitter<ExamState> emit) {
+    bool showOptions = (state as ExamDataLoaded).showOptions;
+
+    emit(
+      (state as ExamDataLoaded).copyWith(
+        showOptions: !showOptions,
       ),
     );
   }
@@ -220,7 +232,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
           questionNumber: 1,
         );
         return emit(
-          ExamDone(
+          ExamDataLoaded(
             questions: questions,
             answers: answers,
             options: options,

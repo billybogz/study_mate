@@ -15,8 +15,8 @@ class ExamLoading extends ExamState {
   const ExamLoading();
 }
 
-class ExamDone extends ExamState {
-  const ExamDone({
+class ExamDataLoaded extends ExamState {
+  const ExamDataLoaded({
     required this.questions,
     required this.answers,
     this.answeredCount = 0,
@@ -24,6 +24,7 @@ class ExamDone extends ExamState {
     this.answerEntity,
     this.wrongAnswerCount = 0,
     required this.options,
+    this.showOptions = false,
   });
 
   final List<QuestionEntity> questions;
@@ -33,6 +34,7 @@ class ExamDone extends ExamState {
   final AnswerEntity? answerEntity;
   final int wrongAnswerCount;
   final List<OptionsEntity> options;
+  final bool showOptions;
 
   @override
   List<Object?> get props => [
@@ -43,9 +45,10 @@ class ExamDone extends ExamState {
         answerEntity,
         wrongAnswerCount,
         options,
+        showOptions,
       ];
 
-  ExamDone copyWith({
+  ExamDataLoaded copyWith({
     List<QuestionEntity>? questions,
     List<String>? answers,
     int? answeredCount,
@@ -54,8 +57,9 @@ class ExamDone extends ExamState {
     bool? isCorrect,
     int? wrongAnswerCount,
     List<OptionsEntity>? options,
+    bool? showOptions,
   }) {
-    return ExamDone(
+    return ExamDataLoaded(
       questions: questions ?? this.questions,
       answers: answers ?? this.answers,
       answeredCount: answeredCount ?? this.answeredCount,
@@ -63,6 +67,7 @@ class ExamDone extends ExamState {
       answerEntity: answerEntity ?? this.answerEntity,
       wrongAnswerCount: wrongAnswerCount ?? this.wrongAnswerCount,
       options: options ?? this.options,
+      showOptions: showOptions ?? this.showOptions,
     );
   }
 }

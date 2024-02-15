@@ -35,3 +35,7 @@ class NextQuestion extends ExamEvent {
 class GetExamType extends ExamEvent {
   const GetExamType();
 }
+
+class ToggleOptionsVisibility extends ExamEvent {
+  const ToggleOptionsVisibility();
+}

@@ -11,9 +11,8 @@ import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart'
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
 
-class ExamScreen extends StatefulWidget {
-  const ExamScreen({
-    super.key,
+class ExamScreenArgs {
+  const ExamScreenArgs({
     required this.subject,
     required this.subjectId,
     required this.periodEntity,
@@ -22,6 +21,15 @@ class ExamScreen extends StatefulWidget {
   final String subject;
   final String subjectId;
   final PeriodEntity periodEntity;
+}
+
+class ExamScreen extends StatefulWidget {
+  const ExamScreen({
+    super.key,
+    required this.args,
+  });
+
+  final ExamScreenArgs args;
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -35,8 +43,8 @@ class _ExamScreenState extends State<ExamScreen> {
     bloc = BlocProvider.of<ExamBloc>(context);
     bloc.add(
       GetQuestions(
-        subjectId: widget.subjectId,
-        periodEntity: widget.periodEntity,
+        subjectId: widget.args.subjectId,
+        periodEntity: widget.args.periodEntity,
       ),
     );
     super.initState();
@@ -46,7 +54,7 @@ class _ExamScreenState extends State<ExamScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.subject.toUpperCase()),
+        title: Text(widget.args.subject.toUpperCase()),
         actions: const [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -58,7 +66,7 @@ class _ExamScreenState extends State<ExamScreen> {
         padding: const EdgeInsets.all(16.0),
         child: BlocConsumer<ExamBloc, ExamState>(
           listener: (context, state) {
-            if (state is ExamDone && (state).wrongAnswerCount >= 3) {
+            if (state is ExamDataLoaded && (state).wrongAnswerCount >= 3) {
               int answeredCount = (state).answeredCount;
               int totalQuestions = (state).questions.length;
               String score = '${answeredCount - 3}/$totalQuestions';
@@ -101,17 +109,16 @@ class _ExamScreenState extends State<ExamScreen> {
                 child: CircularProgressIndicator.adaptive(),
               );
             }
-            if (state is ExamDone) {
+            if (state is ExamDataLoaded) {
               return ExamItemView(
                 state: state,
-                bloc: bloc,
               );
             }
             return const SizedBox.shrink();
           },
         ),
       ),
-      bottomNavigationBar: NextButton(bloc: bloc),
+      bottomNavigationBar: const NextButton(),
     );
   }
 
@@ -143,8 +150,8 @@ class _ExamScreenState extends State<ExamScreen> {
     Navigator.pop(context);
     bloc.add(
       GetQuestions(
-        subjectId: widget.subjectId,
-        periodEntity: widget.periodEntity,
+        subjectId: widget.args.subjectId,
+        periodEntity: widget.args.periodEntity,
       ),
     );
   }

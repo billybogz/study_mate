@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tobby_reviewer/core/widgets/splashscreen.dart';
+import 'package:tobby_reviewer/features/exam/presentation/pages/exam_screen.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
 import 'package:tobby_reviewer/features/home_screen/presentation/pages/home_screen.dart';
 
@@ -23,6 +24,18 @@ final GoRouter routes = GoRouter(
         return BlocProvider<RemoteSubjectBloc>(
           create: (_) => RemoteSubjectBloc(),
           child: const HomeScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      path: GoRoutePath.examScreen,
+      builder: (BuildContext context, GoRouterState state) {
+        final ExamScreenArgs entity = state.extra as ExamScreenArgs;
+        return BlocProvider<RemoteSubjectBloc>(
+          create: (_) => RemoteSubjectBloc(),
+          child: ExamScreen(
+            args: entity,
+          ),
         );
       },
     ),

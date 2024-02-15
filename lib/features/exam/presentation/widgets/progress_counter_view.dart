@@ -11,7 +11,7 @@ class ProgressCounterView extends StatelessWidget {
     return BlocConsumer<ExamBloc, ExamState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is ExamDone) {
+        if (state is ExamDataLoaded) {
           int questionNumber = state.questionNumber;
           int questionCount = state.questions.length;
           return Text('$questionNumber/$questionCount');

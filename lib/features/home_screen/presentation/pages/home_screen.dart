@@ -39,13 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                padding: EdgeInsets.all(16),
                 child: HomeAppBarView(),
               ),
               // QuickStatesView(),
               Expanded(
                 child: SubjectsView(),
               ),
+              SizedBox(height: 8),
             ],
           ),
         ),

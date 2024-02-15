@@ -148,70 +148,88 @@ class _MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => _refreshScreen(context),
+      onRefresh: () => context.read<RemoteSubjectBloc>().refreshScreen(context),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: GridView.builder(
           itemCount: subjects.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            mainAxisExtent: 170,
           ),
-          itemBuilder: (_, index) => InkWell(
-            child: Container(
-              color: getColor(subjects[index].color),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    getIcon(subjects[index].name),
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    subjects[index].name.toUpperCase(),
-                    style: context.textTheme.bodyLarge!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // onTap: () {
-            //   FirestorePopulateRepository repositoryImpl =
-            //       serviceLocator<FirestorePopulateRepository>();
-            //   // repositoryImpl.populateExamType(data: ExamType.data);
-            //   repositoryImpl.populateExamQuestions(
-            //     data: Filipino.thirdPeriodical,
-            //     subjectId: subjects[index].id,
-            //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
-            //     // period: '3rd Monthly Exam',
-            //     periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
-            //     period: '3rd Periodical Exam',
-            //   );
-            // },
-            onTap: () {
-              bloc.add(
-                SelectPeriodEvent(
-                  selectedSubject: subjects[index].name,
-                  subjects: subjects,
-                  subjectId: subjects[index].id,
-                ),
-              );
-            },
+          itemBuilder: (_, index) => _SubjectBox(
+            subjects: subjects,
+            bloc: bloc,
+            index: index,
           ),
         ),
       ),
     );
   }
+}
 
-  Future<void> _refreshScreen(BuildContext context) async {
-    final bloc = BlocProvider.of<RemoteSubjectBloc>(context);
-    bloc.add(RefreshScreenEvent(bloc));
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+class _SubjectBox extends StatelessWidget {
+  const _SubjectBox({
+    required this.subjects,
+    required this.bloc,
+    required this.index,
+  });
+
+  final List<SubjectEntity> subjects;
+  final RemoteSubjectBloc bloc;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        decoration: BoxDecoration(
+          color: getColor(subjects[index].color),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              getIcon(subjects[index].name),
+              color: Colors.white,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              subjects[index].name.toUpperCase(),
+              style: context.textTheme.bodyLarge!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1.0,
+              ),
+            ),
+          ],
+        ),
+      ),
+      // onTap: () {
+      //   FirestorePopulateRepository repositoryImpl =
+      //       serviceLocator<FirestorePopulateRepository>();
+      //   // repositoryImpl.populateExamType(data: ExamType.data);
+      //   repositoryImpl.populateExamQuestions(
+      //     data: Filipino.thirdPeriodical,
+      //     subjectId: subjects[index].id,
+      //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
+      //     // period: '3rd Monthly Exam',
+      //     periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
+      //     period: '3rd Periodical Exam',
+      //   );
+      // },
+      onTap: () {
+        bloc.add(
+          SelectPeriodEvent(
+            selectedSubject: subjects[index].name,
+            subjects: subjects,
+            subjectId: subjects[index].id,
+          ),
+        );
+      },
+    );
   }
 }
