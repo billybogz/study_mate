@@ -1,4 +1,149 @@
 class MAPEH {
+  static const List<Map<String, dynamic>> thirdPeriodical =
+      <Map<String, dynamic>>[
+    {
+      'answer': 'Mindoro',
+      'question': 'is the seventh largest island in the country.',
+    },
+    {
+      'answer': 'Tagalog',
+      'question': 'inhabited in the plains of Occidental Mindoro.',
+    },
+    {
+      'answer': 'Mangyans',
+      'question':
+          'inhabited in the remote forested interior of Occidental Mindoro.',
+    },
+    {
+      'answer': 'Music',
+      'question':
+          "is an important part of Occidental Mindoro's everyday activities.",
+    },
+    {
+      'answer': 'Ambahan',
+      'question': 'a poem with lines consisting of seven syllables.',
+    },
+    {'answer': 'Ambahan', 'question': 'It is used for courting.'},
+    {'answer': 'Iyaya', 'question': 'lullabies song.'},
+    {'answer': 'Igway', 'question': 'vocal music.'},
+    {'answer': 'Marayaw', 'question': 'spirit song.'},
+    {'answer': 'Ngayung', 'question': 'ritual chants.'},
+    {
+      'answer': 'Urukay',
+      'question':
+          'a song often performed during courtship or to bring cheer to other occasions such as feasts and litigation meetings.',
+    },
+    {'answer': 'Urukay', 'question': 'it uses eight syllables'},
+    {'answer': 'Pamuybuyen', 'question': 'a song about legends.'},
+    {
+      'answer': 'Mangyans',
+      'question': 'the indigenous group who reside in Mindoro',
+    },
+    {
+      'answer': 'craft',
+      'question':
+          'has always been a part of their way of life and an extension of their customs and traditions.',
+    },
+    {
+      'answer': 'ramit',
+      'question': 'a textile made by the Buhid and Hanunuo Mangyans.',
+    },
+    {'answer': 'harablon', 'question': 'a woven on a backstrap loom'},
+    {
+      'answer': 'Marinduque',
+      'question':
+          "is referred to as the 'Heart of the Philippines' and the home of the Moriones Festival.",
+    },
+    {'answer': 'buri', 'question': 'raffia plants'},
+    {
+      'answer': 'Mat weaving',
+      'question': 'is popular in Marinduque and represents their way of life.',
+    },
+    {
+      'answer': 'Moriones Festival',
+      'question': 'is an annual festival held during Holy Week',
+    },
+    {
+      'answer': 'morion masks',
+      'question':
+          'participants wear these masks to imitate the Roman soldiers in a reenactment of the Passion of',
+    },
+    {
+      'answer': 'Moriones costumes',
+      'question':
+          'are made of capiz shells, hard wood, metal, and cloth that are sewn, carved, and stitched together.',
+    },
+    {
+      'answer': 'Romblon',
+      'question':
+          'is known as the marble country because of its bountiful marble products such as jars, mortars and pestles, ashtrays, and souvenirs.',
+    },
+    {
+      'answer': 'Dual sport',
+      'question':
+          'is a sport you play either singles or doubles against someone else.',
+    },
+    {'answer': 'doubles', 'question': 'a team consists of two people.'},
+    {
+      'answer': 'Calcium',
+      'question':
+          'for the development, growth, and maintenance of bone tissues.',
+    },
+    {
+      'answer': 'Protein',
+      'question':
+          'this avoids gastrointestinal disorders, chronic infections, and injury.',
+    },
+    {
+      'answer': 'Iron',
+      'question': 'is required for the synthesis of hemoglobin.',
+    },
+    {
+      'answer': 'hemoglobin',
+      'question':
+          "the pigment in the red blood cells that carries oxygen from the lungs to the body's tissues and returns carbon dioxide from the tissues back to the lungs.",
+    },
+    {
+      'answer': 'Phosphorous',
+      'question': 'this filters waste and repairs tissues and cells.',
+    },
+    {
+      'answer': 'Sodium',
+      'question': 'It is only needed in small quantities in natural foods.',
+    },
+    {
+      'answer': 'Sodium deficiency',
+      'question': 'occurs because of low salt intake.',
+    },
+    {
+      'answer': 'diuresis',
+      'question': 'failure to rid the body of excess fluid.',
+    },
+    {
+      'answer': 'Iodine',
+      'question':
+          'is necessary for the synthesis of the hormones in the thyroid gland.',
+    },
+    {
+      'answer': 'Vitamins',
+      'question':
+          'These are organic compounds that the body is unable to synthesize and must be supplied in the diet.',
+    },
+    {
+      'answer': 'Nutritional guidelines',
+      'question':
+          'are simple rules or recommendations on practical nutrition that will motivate people to enjoy and combine a sufficient and well-balanced diet together with a healthy lifestyle.',
+    },
+    {
+      'answer': 'Micronutrient deficiencies',
+      'question':
+          'can be corrected through the consumption of more vegetables and root crops.',
+    },
+    {
+      'answer': 'Root crops',
+      'question': 'can supplement dietary energy to any food intake.',
+    },
+  ];
   static const List<Map<String, dynamic>> thirdMonthly = <Map<String, dynamic>>[
     <String, String>{
       'answer': 'Indigenous tradition',

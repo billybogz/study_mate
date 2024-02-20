@@ -1,4 +1,4 @@
-import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/period.dart';
 
 class RequestQuestionModel {
   const RequestQuestionModel({

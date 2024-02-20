@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/core/failure.dart';
 import 'package:tobby_reviewer/core/providers/service_locator.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/usecases/get_subject.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_state.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/domain/usecases/get_subject.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_event.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_state.dart';
 
 class RemoteSubjectBloc extends Bloc<RemoteSubjectEvent, RemoteSubjectState> {
   RemoteSubjectBloc() : super(const RemoteSubjectLoading()) {

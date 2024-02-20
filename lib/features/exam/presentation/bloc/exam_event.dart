@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tobby_reviewer/features/exam/domain/entities/answer/answer_entity.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/period.dart';
 
 abstract class ExamEvent extends Equatable {
   const ExamEvent();

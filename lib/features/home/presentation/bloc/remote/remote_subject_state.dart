@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tobby_reviewer/core/failure.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
 
 abstract class RemoteSubjectState extends Equatable {
   const RemoteSubjectState();

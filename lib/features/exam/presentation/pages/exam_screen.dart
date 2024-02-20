@@ -7,9 +7,9 @@ import 'package:tobby_reviewer/core/widgets/custom_dialog.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/exam_item_view.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/next_button.dart';
 import 'package:tobby_reviewer/features/exam/presentation/widgets/progress_counter_view.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_bloc.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_event.dart';
 
 class ExamScreenArgs {
   const ExamScreenArgs({

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tobby_reviewer/core/routes/routes.dart';
 import 'package:tobby_reviewer/features/exam/presentation/pages/exam_screen.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_state.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_bloc.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_event.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_state.dart';
 
 class SelectExamPeriodViewArgs {
   final String selectedSubject;

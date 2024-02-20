@@ -1,11 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobby_reviewer/core/utils/extensions/context_extension.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_event.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_state.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/widgets/select_exam_period_view.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_bloc.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_event.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_state.dart';
+import 'package:tobby_reviewer/features/home/presentation/widgets/select_exam_period_view.dart';
 
 Color? getColor(String color) {
   return switch (color) {
@@ -149,23 +150,52 @@ class _MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => context.read<RemoteSubjectBloc>().refreshScreen(context),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: GridView.builder(
-          itemCount: subjects.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            mainAxisExtent: 170,
-          ),
-          itemBuilder: (_, index) => _SubjectBox(
-            subjects: subjects,
-            bloc: bloc,
-            index: index,
+      // child: Padding(
+      //   padding: const EdgeInsets.symmetric(horizontal: 0.0),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Wrap(
+            spacing: 16.0, // Horizontal spacing between items
+            runSpacing: 16.0, // Vertical spacing between lines
+            children: List.generate(
+              subjects.length, // Number of items
+              (index) => _SubjectBox(
+                subjects: subjects,
+                bloc: bloc,
+                index: index,
+              ),
+              // (index) => BookCoverView(
+              //   color: getColor(subjects[index].color),
+              //   text: subjects[index].name,
+              // ),
+            ),
           ),
         ),
       ),
+      // ),
+      // child: Container(
+      //   // padding: const EdgeInsets.fromLTRB(32, 0, 8, 16),
+      //   child: GridView.builder(
+      //     itemCount: subjects.length,
+      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: 2,
+      //       crossAxisSpacing: 12,
+      //       mainAxisSpacing: 12,
+      //       // mainAxisExtent: 170,
+      //     ),
+      //     itemBuilder: (_, index) => BookCoverView(
+      //       color: getColor(subjects[index].color),
+      //       // subjects: subjects,
+      //       // bloc: bloc,
+      //       // index: index,
+      //     ),
+      //     // itemBuilder: (_, index) => _SubjectBox(
+      //     //   subjects: subjects,
+      //     //   bloc: bloc,
+      //     //   index: index,
+      //     // ),
+      //   ),
+      // ),
     );
   }
 }
@@ -185,9 +215,20 @@ class _SubjectBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        height: 150,
+        width: 110,
         decoration: BoxDecoration(
           color: getColor(subjects[index].color),
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            const BoxShadow(
+              color: Colors.grey,
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(2, 2),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -197,8 +238,10 @@ class _SubjectBox extends StatelessWidget {
               color: Colors.white,
             ),
             const SizedBox(height: 8),
-            Text(
+            AutoSizeText(
               subjects[index].name.toUpperCase(),
+              maxLines: 1,
+              minFontSize: 10,
               style: context.textTheme.bodyLarge!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
@@ -213,7 +256,7 @@ class _SubjectBox extends StatelessWidget {
       //       serviceLocator<FirestorePopulateRepository>();
       //   // repositoryImpl.populateExamType(data: ExamType.data);
       //   repositoryImpl.populateExamQuestions(
-      //     data: Filipino.thirdPeriodical,
+      //     data: MAPEH.thirdPeriodical,
       //     subjectId: subjects[index].id,
       //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
       //     // period: '3rd Monthly Exam',

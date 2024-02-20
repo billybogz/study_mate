@@ -26,6 +26,9 @@ dependencies:
   go_router: ^13.2.0
   package_info_plus: ^4.2.0
   step_progress_indicator: ^1.0.2
+  auto_size_text: ^3.0.0
+  firebase_auth: ^4.16.0
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:

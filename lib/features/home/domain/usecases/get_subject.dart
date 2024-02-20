@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:tobby_reviewer/core/failure.dart';
 import 'package:tobby_reviewer/core/providers/service_locator.dart';
 import 'package:tobby_reviewer/core/usecase/usecase.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/repositories/subject_repository.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/domain/repositories/subject_repository.dart';
 
 class GetSubjectUseCase extends UseCase<List<SubjectEntity>, void> {
 // class GetSubjectUseCase {

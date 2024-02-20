@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/subject.dart';
-import 'package:tobby_reviewer/features/home_screen/presentation/bloc/remote/remote_subject_bloc.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
+import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_bloc.dart';
 
 abstract class RemoteSubjectEvent extends Equatable {
   const RemoteSubjectEvent();

@@ -22,14 +22,10 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routerConfig: routes,
         builder: (BuildContext context, Widget? child) {
-          return Stack(
-            children: <Widget>[
-              // Add the GoRouter as the first child
-              child!,
-              // if (child != ExamScreen)
-              //   const AppVersionView(), // Add the BottomTextWidget at the bottom
-            ],
-          );
+          // bool isAuthenticated =
+          //     serviceLocator<FirebaseAuthServices>().isAuthenticated;
+          // return isAuthenticated ? child! : const LoginScreen();
+          return child!;
         },
       ),
     );

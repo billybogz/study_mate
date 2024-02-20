@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tobby_reviewer/features/home_screen/domain/entities/period.dart';
+import 'package:tobby_reviewer/features/home/domain/entities/period.dart';
 
 part 'subject.g.dart';
 
