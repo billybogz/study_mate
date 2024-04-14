@@ -1,4 +1,106 @@
 class English {
+  static const List<Map<String, dynamic>> fourthMastery = [
+    {
+      'answer': 'Voice of verbs',
+      'question':
+          'indicates the form of transitive verb that shows whether the subject is the doer or the receiver of the action',
+    },
+    {
+      'answer': 'Active voice',
+      'question': 'shows the subject as the doer of the action',
+    },
+    {
+      'answer': 'Passive voice',
+      'question': 'shows the receiver of the action as the subject',
+    },
+    {
+      'answer': 'Process',
+      'question':
+          'the paragraph of explaining a process is a type of development telling how something is done or how it should be done',
+    },
+    {
+      'answer': 'Incidents',
+      'question': 'illustrate your main point by narrating the event',
+    },
+    {'answer': 'Definition', 'question': 'identifies the term'},
+    {
+      'answer': 'Comparison',
+      'question':
+          'shows the similarities between two or more people, objects, places, things, or ideas',
+    },
+    {
+      'answer': 'Contrast',
+      'question':
+          'shows the differences between two persons, places, things, or ideas',
+    },
+    {
+      'answer': 'Collocations',
+      'question': 'are related words that are combined with a sentence',
+    },
+    {
+      'answer': 'Interview',
+      'question':
+          'is a meeting between two or more persons for soliciting viewer opinion',
+    },
+    {
+      'answer': 'Autobiography',
+      'question':
+          'is a form of literary piece that tells a story of one person written by the same person',
+    },
+    {
+      'answer': 'Biography',
+      'question':
+          "is a literary form of a person's life written by another person",
+    },
+    {
+      'answer': 'Narrative',
+      'question':
+          'is a story created in a constructive format that describes a sequence of fictional or non-fictional events',
+    },
+    {'answer': 'Cud', 'question': 'food forced up into the mouth'},
+    {'answer': 'Ponder', 'question': 'examine, consider carefully'},
+    {'answer': 'Bolted', 'question': 'moved or sprung suddenly'},
+    {
+      'answer': 'Ogre',
+      'question':
+          'a person who is felt to be particularly cruel, brutish or hideous',
+    },
+    {
+      'answer': 'Gorge',
+      'question': 'a deep narrow passage with a steep rocky side',
+    },
+    {
+      'answer': 'Local color',
+      'question': 'It uses a regional future in an artistic work',
+    },
+    {
+      'answer': 'Direct speech',
+      'question': 'is the exact word or words of the speaker',
+    },
+    {
+      'answer': 'Indirect speech',
+      'question':
+          'is the reported speech by another person about the direct speech of the speaker',
+    },
+    {
+      'answer': 'Anecdote',
+      'question': "a brief account of a true event in someone's life",
+    },
+    {
+      'answer': 'Proposition',
+      'question': 'two teams discuss a topic referred to as proposition',
+    },
+    {
+      'answer': 'Affirmative team',
+      'question': 'maintains the acceptance of the proposition',
+    },
+    {'answer': 'Negative team', 'question': 'Disputes it'},
+    {
+      'answer': 'Derivational words',
+      'question':
+          'it means that the word are derived or taken from the origin of the words',
+    },
+  ];
   static const List<Map<String, dynamic>> thirdPeriodical =
       <Map<String, dynamic>>[
     <String, String>{

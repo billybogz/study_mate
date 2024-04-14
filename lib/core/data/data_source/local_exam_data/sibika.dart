@@ -1,4 +1,219 @@
 class Sibika {
+  static const List<Map<String, dynamic>> fourthMastery = [
+    {
+      'answer': 'Pilosopiya',
+      'question':
+          'ay tumutukoy sa pag-aaral ng kaalaman o pag-iisip ng kaisipang maaaring kasagutan sa anumang bagay na nagaganap sa kapaligiran',
+    },
+    {
+      'answer': 'Utos ng Kalangitan',
+      'question':
+          'pilosopiyang naghahayag ng mahalagang pananagutan ng isang namumuno sa pagpapanatili ng maayos na pamamahala sa kaniyang nasasakupan',
+    },
+    {
+      'answer': 'Dinastiyang Shang',
+      'question':
+          'noong panahon ito,ang kaisipan at buhay ng mga Tsino ay nakabatay lamang sa obserbasyon ng siklo ng araw at gabi.',
+    },
+    {
+      'answer': 'Dinastiyang Zhou',
+      'question':
+          'itinuturing na dinastiyang namuno sa China ng pinakamahabang panahon.',
+    },
+    {
+      'answer': 'Piyudalimo',
+      'question':
+          'sistemang panlipunan kung saan ang pag-aari ng lupain ng hari ay pinamamahalaan ng mga maharlika o panginoon',
+    },
+    {
+      'answer': 'maharlika',
+      'question':
+          'namahala sa pamamalakad ng mga imperyong hinati-hati ng emperador',
+    },
+    {
+      'answer': 'Qin Shih Huang-ti',
+      'question':
+          'nalupig nya ang lahat ng estado at kaniyang kinoronahan ang kanyang sarili bilang kauna-unahang emperador ng pinag-isang China.',
+    },
+    {
+      'answer': 'Confucianism',
+      'question': 'one word which sums up the basis of all good conduct.',
+    },
+    {
+      'answer': 'Meritocracy',
+      'question':
+          'sistema sa pagpili ng mamumuno batay sa kaalaman at kasanayan nito.',
+    },
+    {
+      'answer': 'Filial Piety',
+      'question':
+          'pagbibigay-galang at pagpapahalaga sa mga nakatatanda, mga magulang, at ninuno.',
+    },
+    {
+      'answer': 'Analects of Confucius',
+      'question':
+          'ang mga pangaral ni Confucius ay kinolekta at pinagsama-sama dito.',
+    },
+    {
+      'answer': 'Golden Rule',
+      'question':
+          '\"Gawin mo sa iyong kapuwa ang nais mong gawin din nila sa iyo.\"',
+    },
+    {
+      'answer': 'Taoism o Daoism',
+      'question':
+          'ay isang pilosopiyang umunlad at nalinang bilang isang relihiyon.',
+    },
+    {
+      'answer': 'ang daan',
+      'question':
+          'ang Taoismo ay nagmula sa salitang \"tao\" na nangangahulugang?',
+    },
+    {
+      'answer': 'Dinastiyang Chin',
+      'question': 'ang kauna-unahang dinastiyang nag-isa sa Imperyong China.',
+    },
+    {
+      'answer': 'Xianyang',
+      'question':
+          'itinalaga ito bilang kabisera ng dinastiya ni Qin Shih Huang-ti.',
+    },
+    {
+      'answer': 'Shih Huang-ti',
+      'question':
+          'ay nagpalaganap ng mga repormang pampolitikal, pang-ekonomiya, pangmilitar, at pangkultura.',
+    },
+    {
+      'answer': 'Shih Huang-ti',
+      'question':
+          'itinalaga niya ang kaniyang sarili bilang emperador ng kaniyang lupaing nasasakupan.',
+    },
+    {
+      'answer': 'Pamahalaang Awtokratiko',
+      'question':
+          'sistema ng pamahalaan kung saan ang kapangya-rihan ng pamamahala ay nasa kamay lamang ng isang tao.',
+    },
+    {
+      'answer': 'Sentralisadong pamahalaan',
+      'question':
+          'Uri ng pamamahala kung saan ang lahat ng desisyon ay nagmumula lamang sa pamahalaan maging sa negosyo, panlipunan, ekonomiya, o militar man.',
+    },
+    {
+      'answer': 'legalismo',
+      'question':
+          'ang kaisipang ito ay kabaligtaran ng kaisipang Confucianism.',
+    },
+    {
+      'answer': 'Imperial Highway',
+      'question': 'ipinagawang lansangan ni Huang-ti.',
+    },
+    {
+      'answer': 'Great Wall of China',
+      'question':
+          'ipinagawa upang mapangalagaan ang imperyo sa pananalakay ng mga barbaro mula sa hilagang bahagi ng China.',
+    },
+    {
+      'answer': 'Vassal',
+      'question': 'estadong napasasailalim ng isang makapangyarihang estado.',
+    },
+    {
+      'answer': 'Tributary State',
+      'question':
+          'tumutukoy sa isang estado na regular na nagpapadala ng buwis sa isang makapangyarihang estado',
+    },
+    {
+      'answer': 'sinocentrism',
+      'question':
+          'tumutukoy sa kaisipan na ang kulturang Tsino ay nakaaangat o higit na magaling kaysa ibang kultura.',
+    },
+    {
+      'answer': 'Chinese Cultural Circles',
+      'question':
+          'ipinaliwanag na ang lahat ng kaalamang nagmumula sa mga kanluraning bansa ay dati nang kaalaman sa China.',
+    },
+    {
+      'answer': 'Xi Xue',
+      'question':
+          'ang tawag ng mga Tsino sa daloy ng kaisipang na ang kanluraning bansa ay dati nang kaalaman sa China.',
+    },
+    {
+      'answer': 'Dinastiyang Han',
+      'question': 'tinaguriang Ginintuang Panahon ng China.',
+    },
+    {'answer': 'Liu Bang', 'question': 'nagtatag ng Dinastyang Han.'},
+    {
+      'answer': 'commanderie',
+      'question': 'ay pinamunuan sa mga piling opisyal.',
+    },
+    {
+      'answer': 'Wu Ti',
+      'question':
+          'nagpatayo ng mga paaralang namahala sa pagtuturo at pagpapalaganap ng mga aral ng Confucianism.',
+    },
+    {
+      'answer': 'Silk Road',
+      'question':
+          'ay naging daan tungo sa pag-unlad ng kalakalan mula China patungong Europa.',
+    },
+    {
+      'answer': 'Emperador Wen ng Sui',
+      'question': 'Itinatag nya ang Dinastiyang Sui',
+    },
+    {
+      'answer': 'Grand Canal',
+      'question':
+          'nagsilbing daanang tubig sa pagitan ng Hilaga at Timog China.',
+    },
+    {'answer': 'Dinastiyang Tang', 'question': 'ay itinatag ni Li Yuang.'},
+    {
+      'answer': "Chang' an",
+      'question': 'sentro at kabisera ng Dinastiyang Tang.',
+    },
+    {
+      'answer': 'Tang Tai-tsung',
+      'question':
+          'ang kinikilalang pinakamagaling na emperador ng Disnastiyang Tang.',
+    },
+    {
+      'answer': 'Sui',
+      'question': 'ang naging popular na relihiyon sa kabuuang imperyo.',
+    },
+    {
+      'answer': 'Woodblock printing',
+      'question': 'nakapaglimbag ng maraming kopya ng aklat.',
+    },
+    {
+      'answer': 'Diamond Sutra',
+      'question':
+          'ang kauna-unahang buong aklat na nalimbag sa China noong 868.',
+    },
+    {
+      'answer': 'Gunpowder',
+      'question':
+          'ito ay gamit ng mga Tsino sa paggawa ng mga kuwitis na pinaniniwalaan nilang nakapagtataboy ng masasamang espiritu.',
+    },
+    {'answer': 'Bianjing', 'question': 'kabisera ng Hilagang Song.'},
+    {
+      'answer': 'Katimugang Song',
+      'question':
+          'tumutukoy sa panahon kung kailan humina ang kontrol ng mga Song sa hilagang Song sa Dinastiyang Jurchen.',
+    },
+    {
+      'answer': 'Yangtze',
+      'question': 'matatagpuan ang higit na malawak na lupaing sakahan',
+    },
+    {'answer': 'compass', 'question': 'gabay sa paglalakbay sa karagatan.'},
+    {
+      'answer': 'Song Tai-tsu',
+      'question':
+          'kinikilalang pinakamagaling at epektibong emperador ng Dinastiyang Song.',
+    },
+    {
+      'answer': 'Green Sprout Act',
+      'question': 'nagkaloob ng pautang na butil sa mga magsasaka.',
+    },
+  ];
+
   static const List<Map<String, dynamic>> thirdPeriodical =
       <Map<String, dynamic>>[
     <String, String>{

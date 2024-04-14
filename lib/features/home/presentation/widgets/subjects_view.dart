@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobby_reviewer/core/data/data_source/firestore_populate_service/firestore_populate_repository.dart';
+import 'package:tobby_reviewer/core/data/data_source/local_exam_data/english.dart';
+import 'package:tobby_reviewer/core/providers/service_locator.dart';
 import 'package:tobby_reviewer/core/utils/extensions/context_extension.dart';
 import 'package:tobby_reviewer/features/home/domain/entities/subject.dart';
 import 'package:tobby_reviewer/features/home/presentation/bloc/remote/remote_subject_bloc.dart';
@@ -251,28 +254,28 @@ class _SubjectBox extends StatelessWidget {
           ],
         ),
       ),
-      // onTap: () {
-      //   FirestorePopulateRepository repositoryImpl =
-      //       serviceLocator<FirestorePopulateRepository>();
-      //   // repositoryImpl.populateExamType(data: ExamType.data);
-      //   repositoryImpl.populateExamQuestions(
-      //     data: MAPEH.thirdPeriodical,
-      //     subjectId: subjects[index].id,
-      //     // periodId: 'bf5e04e4-8885-46b7-ae62-fe1d2bcc303d',
-      //     // period: '3rd Monthly Exam',
-      //     periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
-      //     period: '3rd Periodical Exam',
-      //   );
-      // },
       onTap: () {
-        bloc.add(
-          SelectPeriodEvent(
-            selectedSubject: subjects[index].name,
-            subjects: subjects,
-            subjectId: subjects[index].id,
-          ),
+        FirestorePopulateRepository repositoryImpl =
+            serviceLocator<FirestorePopulateRepository>();
+        // repositoryImpl.populateExamType(data: ExamType.data);
+        repositoryImpl.populateExamQuestions(
+          data: English.fourthMastery,
+          subjectId: subjects[index].id,
+          periodId: 'bf20902d-e3ef-439b-9521-edc0595268e2',
+          period: '4th Mastery Exam',
+          // periodId: 'e59e03dd-d55b-48e2-9389-4b2235ec4c4f',
+          // period: '3rd Periodical Exam',
         );
       },
+      // onTap: () {
+      //   bloc.add(
+      //     SelectPeriodEvent(
+      //       selectedSubject: subjects[index].name,
+      //       subjects: subjects,
+      //       subjectId: subjects[index].id,
+      //     ),
+      //   );
+      // },
     );
   }
 }
